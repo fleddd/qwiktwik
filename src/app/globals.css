@@ -1,0 +1,26 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-dark: #050505;
+  --color-bg-charcoal: #0f0f11;
+  --color-accent: #00FF66;
+  --color-accent-hover: #00d957;
+  --color-text-main: #f8fafc;
+  --color-text-muted: #94a3b8;
+  --shadow-glow: 0 4px 20px rgba(0, 255, 102, 0.15);
+  --shadow-glow-hover: 0 6px 25px rgba(0, 255, 102, 0.3);
+}
+
+@layer base {
+  html {
+    background-color: #050505 !important;
+  }
+
+  body {
+    color: #f8fafc;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
