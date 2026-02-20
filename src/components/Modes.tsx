@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import FadeIn from './FadeIn';
 
-// Дані для модів та їхньої статистики
 const modesData = [
     {
         id: 'balanced',
@@ -18,7 +17,7 @@ const modesData = [
         ),
         theme: {
             text: 'text-sky-400',
-            bgActive: 'bg-sky-400/5',
+            bgActive: 'bg-sky-400/10',
             borderActive: 'border-sky-400/30',
             iconBgActive: 'bg-sky-400/20',
             glow: 'bg-sky-400',
@@ -40,11 +39,11 @@ const modesData = [
             </svg>
         ),
         theme: {
-            text: 'text-accent',
-            bgActive: 'bg-accent/5',
-            borderActive: 'border-accent/30',
-            iconBgActive: 'bg-accent/20',
-            glow: 'bg-accent',
+            text: 'text-[#00FF66]',
+            bgActive: 'bg-[#00FF66]/10',
+            borderActive: 'border-[#00FF66]/30',
+            iconBgActive: 'bg-[#00FF66]/20',
+            glow: 'bg-[#00FF66]',
         },
         stats: [
             { label: 'CPU Target', value: 'Max Boost' },
@@ -64,7 +63,7 @@ const modesData = [
         ),
         theme: {
             text: 'text-purple-400',
-            bgActive: 'bg-purple-400/5',
+            bgActive: 'bg-purple-400/10',
             borderActive: 'border-purple-400/30',
             iconBgActive: 'bg-purple-400/20',
             glow: 'bg-purple-400',
@@ -79,86 +78,101 @@ const modesData = [
 ];
 
 export default function Modes() {
-    const [activeMode, setActiveMode] = useState(modesData[1]); // Gaming Mode за замовчуванням
+    const [activeMode, setActiveMode] = useState(modesData[1]);
 
     return (
-        <section className="relative py-24" id="modes">
-            {/* Динамічне світіння фону */}
-            <div
-                className={`absolute -left-[10%] top-[30%] w-[400px] h-[400px] blur-[150px] rounded-full opacity-10 -z-10 transition-colors duration-700 ${activeMode.theme.glow}`}
-            ></div>
+        <section className="relative py-16 md:py-24" id="modes">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
-            <div className="max-w-7xl mx-auto px-6">
                 <FadeIn>
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">Adapt on the fly. Three modes, zero restarts.</h2>
-                        <p className="text-text-muted text-lg max-w-2xl mx-auto">Switch between maximum gaming performance and silent background operation instantly with just one click.</p>
+                    <div className="text-center mb-10 md:mb-16">
+                        <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">Adapt on the fly.</h2>
+                        <p className="text-[#94a3b8] text-base md:text-lg max-w-2xl mx-auto">Three distinct profiles. Zero system restarts required.</p>
                     </div>
                 </FadeIn>
 
-                {/* Картки вибору модів */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-                    {modesData.map((mode, index) => {
-                        const isActive = activeMode.id === mode.id;
+                <FadeIn delay={0.1}>
+                    <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden shadow-2xl">
 
-                        return (
-                            <FadeIn key={mode.id} delay={index * 0.1}>
-                                <div
-                                    onClick={() => setActiveMode(mode)}
-                                    className={`cursor-pointer backdrop-blur-md border rounded-2xl p-8 transition-all duration-300 h-full
-                                        ${isActive
-                                            ? `${mode.theme.bgActive} ${mode.theme.borderActive} shadow-[0_8px_30px_rgba(0,0,0,0.12)] -translate-y-1`
-                                            : 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20'
-                                        }
-                                    `}
-                                >
-                                    <div
-                                        className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 transition-colors duration-300
-                                            ${isActive ? mode.theme.iconBgActive : 'bg-white/10'}
-                                            ${isActive ? mode.theme.text : 'text-text-muted'}
+                        {/* Фонове світіння */}
+                        <div className={`absolute top-1/2 -right-20 w-96 h-96 blur-[120px] rounded-full opacity-[0.07] pointer-events-none transition-colors duration-700 ${activeMode.theme.glow} -translate-y-1/2`}></div>
+
+                        {/* Навігація (Адаптовано під мобільні без скролу) */}
+                        <div className="flex flex-row md:flex-col gap-2 md:gap-3 shrink-0 md:w-64 relative z-10 w-full">
+                            {modesData.map((mode) => {
+                                const isActive = activeMode.id === mode.id;
+                                // Відрізаємо слово "Mode" для мобілок (напр. "Gaming Mode" -> "Gaming")
+                                const shortTitle = mode.title.split(' ')[0];
+
+                                return (
+                                    <button
+                                        key={mode.id}
+                                        onClick={() => setActiveMode(mode)}
+                                        className={`flex-1 cursor-pointer flex flex-col md:flex-row items-center justify-center md:justify-start gap-2 md:gap-4 px-2 py-3 md:px-5 md:py-4 rounded-xl md:rounded-2xl transition-all duration-300
+                                            ${isActive
+                                                ? `${mode.theme.bgActive} border ${mode.theme.borderActive} shadow-lg`
+                                                : 'bg-white/5 md:bg-transparent border border-transparent hover:bg-white/5'
+                                            }
                                         `}
                                     >
-                                        {mode.icon}
-                                    </div>
-                                    <h3 className={`text-xl font-semibold mb-3 transition-colors duration-300 ${isActive ? mode.theme.text : 'text-white'}`}>
-                                        {mode.title}
-                                    </h3>
-                                    <p className="text-text-muted text-sm leading-relaxed">
-                                        {mode.desc}
-                                    </p>
-                                </div>
-                            </FadeIn>
-                        );
-                    })}
-                </div>
+                                        <div className={`w-8 h-8 md:w-10 md:h-10 rounded-lg md:rounded-xl flex items-center justify-center shrink-0 transition-colors duration-300
+                                            ${isActive ? mode.theme.iconBgActive : 'bg-transparent md:bg-white/5'}
+                                            ${isActive ? mode.theme.text : 'text-[#94a3b8]'}
+                                        `}>
+                                            <div className="scale-75 md:scale-100">{mode.icon}</div>
+                                        </div>
 
-                {/* Панель зі статистикою */}
-                <FadeIn delay={0.4}>
-                    <div className="relative overflow-hidden bg-bg-charcoal border border-white/5 rounded-2xl p-8 md:p-10">
-                        {/* Маленьке фонове світіння всередині панелі статків */}
-                        <div className={`absolute top-0 right-0 w-64 h-64 blur-[100px] opacity-[0.05] transition-colors duration-700 pointer-events-none ${activeMode.theme.glow}`}></div>
-
-                        <h4 className="text-sm font-bold uppercase tracking-widest text-text-muted mb-8">Live Telemetry Changes</h4>
-
-                        <AnimatePresence mode="wait">
-                            <motion.div
-                                key={activeMode.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.3 }}
-                                className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8"
-                            >
-                                {activeMode.stats.map((stat, i) => (
-                                    <div key={i} className="flex flex-col">
-                                        <span className="text-text-muted text-sm mb-2">{stat.label}</span>
-                                        <span className={`text-xl md:text-2xl font-bold tracking-tight ${activeMode.theme.text}`}>
-                                            {stat.value}
+                                        <span className={`font-bold transition-colors duration-300 text-[10px] md:text-sm ${isActive ? 'text-white' : 'text-[#94a3b8]'}`}>
+                                            <span className="md:hidden">{shortTitle}</span>
+                                            <span className="hidden md:inline">{mode.title}</span>
                                         </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {/* Права панель: Контент */}
+                        <div className="flex-1 relative min-h-[350px] md:min-h-0 flex flex-col justify-center">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeMode.id}
+                                    initial={{ opacity: 0, x: 20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: -20 }}
+                                    transition={{ duration: 0.3, ease: "easeOut" }}
+                                    className="relative z-10"
+                                >
+                                    <div className="mb-8 md:mb-12">
+                                        <div className="flex items-center gap-3 mb-3 md:mb-4">
+                                            <span className={`w-2 h-2 rounded-full animate-pulse ${activeMode.theme.glow}`}></span>
+                                            <h3 className={`text-2xl md:text-3xl font-black tracking-tight ${activeMode.theme.text}`}>
+                                                {activeMode.title}
+                                            </h3>
+                                        </div>
+                                        <p className="text-[#94a3b8] text-sm md:text-lg leading-relaxed max-w-xl">
+                                            {activeMode.desc}
+                                        </p>
                                     </div>
-                                ))}
-                            </motion.div>
-                        </AnimatePresence>
+
+                                    <div className="bg-black/20 md:bg-transparent rounded-2xl p-4 md:p-0 border border-white/5 md:border-transparent">
+                                        <h4 className="text-[10px] md:text-xs font-bold uppercase tracking-widest text-white/40 mb-4 md:mb-5 md:border-b border-white/5 md:pb-3">
+                                            Live Telemetry
+                                        </h4>
+                                        <div className="grid grid-cols-2 gap-4 md:gap-8">
+                                            {activeMode.stats.map((stat, i) => (
+                                                <div key={i} className="flex flex-col">
+                                                    <span className="text-[#94a3b8] text-[10px] md:text-sm mb-1 uppercase md:capitalize tracking-wider md:tracking-normal">{stat.label}</span>
+                                                    <span className="text-sm md:text-xl font-bold tracking-tight text-white">
+                                                        {stat.value}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+
                     </div>
                 </FadeIn>
             </div>

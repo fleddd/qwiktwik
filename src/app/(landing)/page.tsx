@@ -7,23 +7,19 @@ import Testimonials from '@/components/Testimonials';
 import FAQ from '@/components/FAQ';
 import CTA from '@/components/CTA';
 import Footer from '@/components/Footer';
-import Navbar from '../components/Navbar';
+import Navbar from '../../components/Navbar';
 
 export default function Home() {
   return (
     <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Metrics />
-        <Modes />
-        <Features />
-        <Pricing />
-        <Testimonials />
-        <FAQ />
-        <CTA />
-      </main>
-      <Footer />
+      <Hero />
+      <Metrics />
+      <Modes />
+      <Features />
+      <Pricing />
+      <Testimonials />
+      <FAQ />
+      <CTA />
     </>
   );
 }

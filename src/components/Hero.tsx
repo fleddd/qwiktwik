@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import FadeIn from './FadeIn';
+import { PAGES } from '@/constants/pages';
 
 export default function Hero() {
     return (
@@ -28,7 +29,7 @@ export default function Hero() {
 
                 <FadeIn delay={0.3}>
                     <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
-                        <Link href="#" className="px-6 py-3 bg-accent text-black font-semibold rounded-lg shadow-glow hover:bg-accent-hover hover:shadow-glow-hover hover:-translate-y-0.5 transition-all duration-300">
+                        <Link href={PAGES.DOWNLOAD_FREE} className="px-6 py-3 bg-accent text-black font-semibold rounded-lg shadow-glow hover:bg-accent-hover hover:shadow-glow-hover hover:-translate-y-0.5 transition-all duration-300">
                             Get QwikTwik for Free
                         </Link>
                         <Link href="#pro" className="px-6 py-3 bg-transparent text-text-main border border-white/10 rounded-lg font-semibold hover:border-accent hover:text-accent transition-colors duration-300">
@@ -42,7 +43,7 @@ export default function Hero() {
                     <div className="relative max-w-4xl mx-auto h-[450px] bg-gradient-to-br from-white/5 to-white/0 border border-white/5 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden">
                         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,255,102,0.02)_10px,rgba(0,255,102,0.02)_20px)]"></div>
 
-                        <div className="w-4/5 h-3/4 bg-bg-charcoal rounded-xl border border-white/5 p-5 shadow-[0_10px_30px_rgba(0,255,102,0.05)] flex flex-col relative z-10">
+                        <div className="w-4/5 h-3/4 bg-charcoal rounded-xl border border-white/5 p-5 shadow-[0_10px_30px_rgba(0,255,102,0.05)] flex flex-col relative z-10">
                             <div className="flex gap-2 mb-5">
                                 <div className="w-3 h-3 rounded-full bg-neutral-800"></div>
                                 <div className="w-3 h-3 rounded-full bg-neutral-800"></div>

@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { PAGES } from '../constants/pages';
+import "../styles/globals.css";
 
 export default function NotFound() {
     return (

@@ -40,7 +40,7 @@ export default function ForgotPassword() {
 
                             <button
                                 type="submit"
-                                className="w-full py-3.5 bg-white text-black font-black rounded-xl hover:bg-white/90 transition-all transform hover:-translate-y-0.5 mt-2"
+                                className="w-full py-3.5 bg-accent text-black font-black rounded-xl hover:bg-accent/90 transition-all transform hover:-translate-y-0.5 mt-2"
                             >
                                 Send Recovery Link
                             </button>

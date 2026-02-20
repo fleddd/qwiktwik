@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
+import { PAGES } from '@/constants/pages';
 
 export default function ProPricing() {
     const eliteTweaks = [
@@ -55,7 +56,7 @@ export default function ProPricing() {
                         <div className=" border border-accent shadow-glow rounded-3xl p-10 md:p-14 text-center text-white">
                             <h2 className="text-3xl md:text-4xl font-black mb-4">Ready for zero-latency?</h2>
                             <div className="text-5xl font-black mb-8">$9.99<span className="text-xl opacity-60">/mo</span></div>
-                            <Link href="#" className="inline-block px-12 py-5 bg-accent text-black font-black rounded-2xl hover:scale-105 transition-all shadow-2xl text-lg">
+                            <Link href={PAGES.CHECKOUT_PRO} className="inline-block px-12 py-5 bg-accent text-black font-black rounded-2xl hover:scale-105 transition-all shadow-2xl text-lg">
                                 Unlock Pro Elite Now
                             </Link>
                             <p className="mt-6 text-sm font-bold opacity-60 uppercase tracking-widest">Instant Activation • Cancel Anytime</p>

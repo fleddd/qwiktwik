@@ -48,7 +48,7 @@ export default function Login() {
                             <div className="space-y-1.5">
                                 <div className="flex items-center justify-between">
                                     <label className="text-xs font-bold text-text-muted uppercase tracking-wider">Password</label>
-                                    <Link href="#" className="text-[10px] md:text-xs font-bold text-accent hover:text-accent-hover transition-colors">Forgot?</Link>
+                                    <Link href={PAGES.FORGOT_PASSWORD} className="text-[10px] md:text-xs font-bold text-accent hover:text-accent-hover transition-colors">Forgot?</Link>
                                 </div>
                                 <input
                                     type="password"

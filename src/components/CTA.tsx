@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import FadeIn from './FadeIn';
+import { PAGES } from '@/constants/pages';
 
 export default function CTA() {
     return (
@@ -24,7 +25,7 @@ export default function CTA() {
                             Join 100,000+ gamers and streamers who have already unlocked their PC&apos;s true potential. Takes exactly 1 click.
                         </p>
 
-                        <Link href="#" className="relative z-10 inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-accent text-black font-black rounded-xl shadow-[0_0_20px_rgba(0,255,102,0.3)]  transition-all text-base md:text-lg transform hover:-translate-y-1 w-full sm:w-auto">
+                        <Link href={PAGES.DOWNLOAD_FREE} className="relative z-10 inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-accent text-black font-black rounded-xl shadow-[0_0_20px_rgba(0,255,102,0.3)]  transition-all text-base md:text-lg transform hover:-translate-y-1 w-full sm:w-auto">
                             Download QwikTwik Now
                             <svg className="w-5 h-5 md:w-6 md:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><polyline points="19 12 12 19 5 12"></polyline></svg>
                         </Link>

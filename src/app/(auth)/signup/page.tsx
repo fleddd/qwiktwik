@@ -61,7 +61,7 @@ export default function SignUp() {
                                 type="submit"
                                 className="w-full py-3.5 bg-accent text-black font-black rounded-xl shadow-[0_0_20px_rgba(0,255,102,0.2)] hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(0,255,102,0.4)] transition-all transform hover:-translate-y-0.5 mt-2"
                             >
-                                Generate Credentials
+                                Create an account
                             </button>
                         </form>
 

@@ -160,19 +160,19 @@ export default function Metrics() {
 
                 <FadeIn delay={0.2}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                        <div className="bg-bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
+                        <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="text-text-muted text-xs font-medium mb-1">In-Game FPS</p>
                                 <div className={`text-3xl font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-white'}`}>{Math.round(fps)}</div>
                             </div>
                         </div>
-                        <div className="bg-bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
+                        <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="text-text-muted text-xs font-medium mb-1">System Latency</p>
                                 <div className={`text-3xl font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-red-400'}`}>{Math.round(ping)}<span className="text-lg">ms</span></div>
                             </div>
                         </div>
-                        <div className="bg-bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
+                        <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="text-text-muted text-xs font-medium mb-1">Background Threads</p>
                                 <div className={`text-3xl font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-red-400'}`}>

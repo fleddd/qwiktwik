@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../styles/globals.css";
-const inter = Inter({ subsets: ["latin"] });
+import GridBackground from "@/components/GridBackground";
+import "../../styles/globals.css";
+import SmoothScroll from "@/components/SmoothScroll";
+
 
 export const metadata: Metadata = {
     title: "QwikTwik - PC Optimization Utility",
@@ -14,10 +15,11 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className="scroll-smooth">
-            <body className={inter.className}>
+        <SmoothScroll>
+            <GridBackground />
+            <main>
                 {children}
-            </body>
-        </html>
+            </main>
+        </SmoothScroll>
     );
 }

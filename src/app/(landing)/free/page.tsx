@@ -16,8 +16,7 @@ export default function FreePricing() {
 
     return (
         <>
-            <Navbar />
-            <main className="min-h-screen pt-32 pb-20 bg-[#050505] text-white">
+            <div className="min-h-screen pt-32 pb-20 bg-[#050505] text-white">
                 <div className="max-w-4xl mx-auto px-6">
                     <FadeIn>
                         <div className="text-center mb-16">
@@ -54,8 +53,7 @@ export default function FreePricing() {
                         </div>
                     </FadeIn>
                 </div>
-            </main>
-            <Footer />
+            </div>
         </>
     );
 }

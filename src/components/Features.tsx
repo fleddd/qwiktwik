@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import FadeIn from './FadeIn';
 import { PAGES } from '@/constants/pages';
+import Slider from './Slider';
 
 export default function Features() {
     const features = [
@@ -104,18 +105,17 @@ export default function Features() {
                     </div>
                 </FadeIn>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {/* ВИКОРИСТАННЯ НОВОГО СЛАЙДЕРА */}
+                <Slider desktopGridClasses="sm:grid-cols-2 lg:grid-cols-3">
                     {features.map((f, i) => (
-                        <FadeIn key={i} delay={i * 0.1}>
-                            {/* Додано group-focus та group-active для тачскрінів. Висота адаптивна */}
+                        <FadeIn key={i} delay={i * 0.1} className="h-full">
                             <div
-                                tabIndex={0} // Дозволяє картці отримувати фокус по тапу на телефоні
-                                className="group relative bg-[#131316] border border-white/5 rounded-2xl overflow-hidden h-[360px] md:h-[340px] hover:border-accent/40 focus:border-accent/40 transition-all duration-500 shadow-xl cursor-pointer"
+                                tabIndex={0}
+                                className="group relative bg-[#131316] border border-white/5 rounded-2xl overflow-hidden h-[360px] md:h-[340px] hover:border-accent/40 focus:border-accent/40 transition-all duration-500 shadow-xl cursor-pointer w-full"
                             >
-
                                 <div className="absolute inset-0 p-6 md:p-8 flex flex-col transition-transform duration-500 group-hover:-translate-y-full group-focus:-translate-y-full">
                                     <div className="flex justify-between items-start mb-auto">
-                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
                                             <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 stroke-white stroke-2 fill-none">{f.icon}</svg>
                                         </div>
                                         <div className="text-right">
@@ -127,7 +127,6 @@ export default function Features() {
                                         <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-white">{f.title}</h4>
                                         <p className="text-sm text-text-muted leading-relaxed mb-6 md:mb-0">{f.desc}</p>
 
-                                        {/* ПІДКАЗКА ДЛЯ МОБІЛЬНИХ (ховається на десктопі) */}
                                         <div className="absolute -bottom-2 right-0 md:hidden flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md">
                                             <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
                                             <span className="text-[10px] text-accent font-bold uppercase tracking-wider">Tap to Decrypt</span>
@@ -153,11 +152,10 @@ export default function Features() {
                                         })}
                                     </ul>
                                 </div>
-
                             </div>
                         </FadeIn>
                     ))}
-                </div>
+                </Slider>
             </div>
         </section>
     );
