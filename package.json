@@ -6,6 +6,9 @@
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "db:generate": "turbo run generate",
+    "db:push": "turbo run db:push",
+    "db:studio": "turbo run db:studio",
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
@@ -16,9 +19,5 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "npm@11.3.0",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ]
+  "packageManager": "pnpm@10.0.0"
 }

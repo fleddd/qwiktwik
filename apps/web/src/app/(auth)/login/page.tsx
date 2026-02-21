@@ -1,14 +1,62 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 import FadeIn from '@/components/FadeIn';
-import { PAGES } from "@/constants/pages"
+import { PAGES } from "@/constants/pages";
+import { AuthService } from '@/services/auth.service';
+import type { LoginInput } from '@repo/validation';
+import { FaDiscord, FaGoogle } from 'react-icons/fa';
 
 export default function Login() {
-    return (
-        // Забрав py-24, залишив p-6 для безпечних країв. overflow-hidden запобігає скролу.
-        <main className="h-screen w-full flex items-center justify-center relative p-6 overflow-hidden">
+    const router = useRouter();
+    const [globalError, setGlobalError] = useState<string | null>(null);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string[]>>({});
+    const [isLoading, setIsLoading] = useState(false);
 
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        setGlobalError(null);
+        setFieldErrors({});
+        setIsLoading(true);
+
+        const formData = new FormData(e.currentTarget);
+        const credentials = Object.fromEntries(formData.entries()) as unknown as LoginInput;
+
+        try {
+            const response = await AuthService.login(credentials);
+
+            if (!response.success) {
+                if (response.error.status === 400 && response.error.details) {
+                    setFieldErrors(response.error.details);
+                } else {
+                    setGlobalError(response.error.message);
+                }
+                return;
+            }
+
+            Cookies.set('accessToken', response.data.accessToken, { expires: 7, path: '/' });
+            router.push('/dashboard');
+            router.refresh();
+
+        } catch (err: any) {
+            setGlobalError('Some critical error occured during the process.');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleOAuthLogin = (provider: 'google' | 'discord') => {
+        const url = provider === 'google'
+            ? AuthService.getGoogleAuthUrl()
+            : AuthService.getDiscordAuthUrl();
+        window.location.href = url;
+    };
+
+    return (
+        <main className="h-screen w-full flex items-center justify-center relative p-6 overflow-hidden">
             <Link href="/" className="absolute top-6 left-6 md:top-8 md:left-8 text-text-muted hover:text-white flex items-center gap-2 transition-colors font-medium z-20 text-sm">
                 <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 md:w-5 md:h-5 stroke-current stroke-2"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
                 Back to Home
@@ -19,10 +67,6 @@ export default function Login() {
             <div className="w-full max-w-md relative z-10 flex flex-col justify-center">
                 <FadeIn>
                     <div className="text-center mb-6">
-                        <Link href="/" className="inline-flex items-center gap-2 text-xl md:text-2xl font-black mb-4 md:mb-6 text-white hover:text-accent transition-colors">
-                            <svg viewBox="0 0 24 24" className="fill-current w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
-                            QwikTwik
-                        </Link>
                         <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight mb-1">Welcome Back</h1>
                         <p className="text-sm text-text-muted">Enter your credentials to access the dashboard.</p>
                     </div>
@@ -30,19 +74,28 @@ export default function Login() {
 
                 <FadeIn delay={0.1}>
                     <div className="bg-[#131316] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
-
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50"></div>
 
-                        {/* Зменшив space-y-6 до space-y-4 */}
-                        <form className="space-y-4">
+                        {globalError && (
+                            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm font-mono text-center">
+                                {globalError}
+                            </div>
+                        )}
 
+                        <form onSubmit={handleSubmit} className="space-y-4">
                             <div className="space-y-1.5">
                                 <label className="text-xs font-bold text-text-muted uppercase tracking-wider">Email Address</label>
                                 <input
+                                    name="email"
                                     type="email"
+                                    required
                                     placeholder="ghost@example.com"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-mono text-sm"
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm ${fieldErrors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'
+                                        }`}
                                 />
+                                {fieldErrors.email && (
+                                    <span className="text-red-400 text-[10px] md:text-xs font-mono">{fieldErrors.email[0]}</span>
+                                )}
                             </div>
 
                             <div className="space-y-1.5">
@@ -51,19 +104,38 @@ export default function Login() {
                                     <Link href={PAGES.FORGOT_PASSWORD} className="text-[10px] md:text-xs font-bold text-accent hover:text-accent-hover transition-colors">Forgot?</Link>
                                 </div>
                                 <input
+                                    name="password"
                                     type="password"
+                                    required
                                     placeholder="••••••••"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:border-accent/50 focus:bg-white/10 transition-all font-mono text-sm tracking-widest"
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm tracking-widest ${fieldErrors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'
+                                        }`}
                                 />
+                                {fieldErrors.password && (
+                                    <span className="text-red-400 text-[10px] md:text-xs font-mono">{fieldErrors.password[0]}</span>
+                                )}
                             </div>
 
                             <button
                                 type="submit"
-                                className="w-full py-3.5 bg-accent text-black font-black rounded-xl shadow-[0_0_20px_rgba(0,255,102,0.2)] hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(0,255,102,0.4)] transition-all transform hover:-translate-y-0.5 mt-2"
+                                disabled={isLoading}
+                                className="cursor-pointer w-full py-3.5 bg-accent text-black font-black rounded-xl shadow-[0_0_20px_rgba(0,255,102,0.2)] hover:bg-accent-hover hover:shadow-[0_0_30px_rgba(0,255,102,0.4)] transition-all transform hover:-translate-y-0.5 mt-2 disabled:opacity-50 disabled:hover:translate-y-0"
                             >
-                                Initialize Session
+                                {isLoading ? 'Initializing...' : 'Initialize Session'}
                             </button>
                         </form>
+
+                        <div className="mt-6 pt-5 border-t border-white/5">
+                            <p className="text-xs font-bold text-text-muted uppercase tracking-wider text-center mb-4">Or connect with</p>
+                            <div className="grid grid-cols-2 gap-3">
+                                <button onClick={() => handleOAuthLogin('discord')} type="button" className="cursor-pointer flex items-center justify-center gap-2 py-2.5 bg-[#5865F2]/10 text-[#5865F2] hover:bg-[#5865F2]/20 border border-[#5865F2]/20 rounded-xl transition-all text-sm font-bold">
+                                    <FaDiscord /> Discord
+                                </button>
+                                <button onClick={() => handleOAuthLogin('google')} type="button" className="cursor-pointer flex items-center justify-center gap-2 py-2.5 bg-white/5 text-white hover:bg-white/10 border border-white/10 rounded-xl transition-all text-sm font-bold">
+                                    <FaGoogle /> Google
+                                </button>
+                            </div>
+                        </div>
 
                         <div className="mt-6 pt-5 border-t border-white/5 text-center">
                             <p className="text-xs md:text-sm text-text-muted">

@@ -28,6 +28,15 @@ export default function FreePricing() {
                     </FadeIn>
 
                     <div className="grid grid-cols-1 gap-4 mb-16">
+                        <FadeIn delay={0.6}>
+                            <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 text-center">
+                                <h2 className="text-2xl font-bold mb-4">Start your journey today</h2>
+                                <p className="text-text-muted mb-8 text-sm">No credit card required. Just download and run.</p>
+                                <Link href="#" className="inline-block px-10 py-4 bg-accent text-black font-black rounded-xl hover:bg-accent/90 transition-all shadow-xl">
+                                    Download Free Version
+                                </Link>
+                            </div>
+                        </FadeIn>
                         {freeTweaks.map((tweak, i) => (
                             <FadeIn key={i} delay={i * 0.1}>
                                 <div className="bg-white/5 border border-white/10 p-6 rounded-2xl flex items-center gap-6">
@@ -43,15 +52,7 @@ export default function FreePricing() {
                         ))}
                     </div>
 
-                    <FadeIn delay={0.6}>
-                        <div className="bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 text-center">
-                            <h2 className="text-2xl font-bold mb-4">Start your journey today</h2>
-                            <p className="text-text-muted mb-8 text-sm">No credit card required. Just download and run.</p>
-                            <Link href="#" className="inline-block px-10 py-4 bg-white text-black font-black rounded-xl hover:bg-white/90 transition-all shadow-xl">
-                                Download Free Version
-                            </Link>
-                        </div>
-                    </FadeIn>
+
                 </div>
             </div>
         </>

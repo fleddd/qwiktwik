@@ -75,7 +75,11 @@ export default function Pricing() {
                                     Pro Elite
                                     <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 fill-accent"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                                 </h3>
-                                <p className="text-xs text-text-muted mb-3">Absolute hardware dominance.</p>
+
+                                <p className="text-xs text-text-muted mb-3">
+                                    Absolute hardware dominance.
+                                    <span className='text-xs'>Starting from: </span>
+                                </p>
                                 <div className="text-4xl md:text-5xl font-black flex items-baseline gap-1 text-white">
                                     $4.99<span className="text-xs md:text-sm text-text-muted font-bold">/mo</span>
                                 </div>

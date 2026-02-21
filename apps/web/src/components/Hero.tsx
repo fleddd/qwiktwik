@@ -30,10 +30,7 @@ export default function Hero() {
                 <FadeIn delay={0.3}>
                     <div className="flex flex-col sm:flex-row justify-center gap-4 mb-16">
                         <Link href={PAGES.DOWNLOAD_FREE} className="px-6 py-3 bg-accent text-black font-semibold rounded-lg shadow-glow hover:bg-accent-hover hover:shadow-glow-hover hover:-translate-y-0.5 transition-all duration-300">
-                            Get QwikTwik for Free
-                        </Link>
-                        <Link href="#pro" className="px-6 py-3 bg-transparent text-text-main border border-white/10 rounded-lg font-semibold hover:border-accent hover:text-accent transition-colors duration-300">
-                            View Pro Plans
+                            Download Free
                         </Link>
                     </div>
                 </FadeIn>

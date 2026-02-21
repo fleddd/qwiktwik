@@ -7,7 +7,7 @@ export const PAGES = {
     CHANGELOG: '/changelog',
     LEGAL: '/legal',
     PRICING_FREE: '/free',
-    PRICING_PRO: '/premium',
+    PRICING_PRO: '/pricing',
     DOWNLOAD_FREE: '/signup',
     CHECKOUT_PRO: '/signup?plan=pro'
 };

@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ==========================================
+// ENUMS
+// ==========================================
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum Plan {
+  FREE
+  PRO
+}
+
+enum BillingInterval {
+  MONTHLY
+  YEARLY
+  LIFETIME
+  NONE // Для безкоштовних користувачів
+}
+
+enum SubStatus {
+  ACTIVE
+  INACTIVE // За замовчуванням для Free
+  PAST_DUE // Час вийшов, очікується оплата
+  CANCELED
+}
+
+enum TxStatus {
+  PENDING // Очікує підтвердження (особливо актуально для крипти)
+  COMPLETED // Успішно оплачено
+  FAILED // Помилка або скасовано
+}
+
+// ==========================================
+// MODELS
+// ==========================================
+
+model User {
+  id           String  @id @default(uuid())
+  email        String  @unique
+  passwordHash String?
+  name         String?
+  role         Role    @default(USER)
+
+  subscription Subscription?
+  transactions Transaction[] // Історія платежів користувача
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Subscription {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  plan     Plan            @default(FREE)
+  status   SubStatus       @default(INACTIVE)
+  interval BillingInterval @default(NONE)
+
+  // Універсальні поля для будь-якої платіжки (Stripe, Cryptomus, WayForPay тощо)
+  paymentProvider        String? // Наприклад: "stripe", "cryptomus", "nowpayments"
+  providerCustomerId     String? // ID юзера в системі провайдера
+  providerSubscriptionId String? // ID підписки в системі провайдера (якщо є)
+
+  // Контроль доступу
+  currentPeriodStart DateTime?
+  currentPeriodEnd   DateTime? // Для LIFETIME це поле буде null (або дата в 2099 році)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  amount   Float // Сума (наприклад, 4.99)
+  currency String // Валюта (наприклад, "USD", "USDT")
+
+  provider     String // "stripe", "cryptomus"
+  providerTxId String? @unique // Хеш транзакції або ID інвойсу провайдера
+
+  status       TxStatus        @default(PENDING)
+  intervalPaid BillingInterval // За який період була ця оплата
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

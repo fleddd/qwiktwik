@@ -95,10 +95,8 @@ export default function KnowledgeBase() {
     };
 
     return (
-        <div className="bg-[#050505] min-h-screen selection:bg-accent/30">
-            <Navbar />
-
-            <main className="pt-24 md:pt-36 pb-16">
+        <div className="min-h-screen selection:bg-accent/30">
+            <div className="pt-24 md:pt-36 pb-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
                     <FadeIn>
@@ -115,8 +113,7 @@ export default function KnowledgeBase() {
 
                     <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start relative">
 
-                        {/* ОПТИМІЗОВАНА НАВІГАЦІЯ КАТЕГОРІЙ */}
-                        <FadeIn delay={0.1} className="w-full md:w-64 flex-shrink-0 sticky top-[72px] md:top-32 z-40 bg-[#050505]/95 backdrop-blur-md md:bg-transparent -mx-4 px-4 md:mx-0 md:px-0 py-3 md:py-0 border-b border-white/5 md:border-0">
+                        <FadeIn delay={0.1} className="w-full md:w-64 shrink-0 sticky top-[72px] md:top-32 z-40 bg-charcoal/95 backdrop-blur-md md:bg-transparent -mx-4 px-4 md:mx-0 md:px-0 py-3 md:py-0 border-b border-white/5 md:border-0">
                             <h3 className="text-[10px] font-bold text-text-muted uppercase tracking-widest mb-4 hidden md:block px-4">Categories</h3>
 
                             <div className="relative group">
@@ -129,9 +126,9 @@ export default function KnowledgeBase() {
                                         <button
                                             key={category.id}
                                             onClick={(e) => handleTabClick(category.id, e)}
-                                            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap snap-center ${activeTab === category.id
-                                                ? 'bg-accent/10 text-accent font-bold ring-1 ring-accent/30'
-                                                : 'bg-white/5 text-text-muted hover:text-white'
+                                            className={`flex cursor-pointer items-center gap-2.5 px-4 py-2.5 rounded-xl transition-all whitespace-nowrap snap-center ${activeTab === category.id
+                                                ? 'bg-accent/10 text-accent font-bold '
+                                                : 'bg-charcoal text-text-muted hover:text-white'
                                                 }`}
                                         >
                                             <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2 shrink-0">
@@ -196,8 +193,7 @@ export default function KnowledgeBase() {
 
                     </div>
                 </div>
-            </main>
-            <Footer />
+            </div>
         </div>
     );
 }

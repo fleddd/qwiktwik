@@ -95,8 +95,8 @@ export default function Navbar() {
                         <Link href={PAGES.LOGIN} className="text-white hover:text-[#00FF66] font-bold text-sm transition-colors">
                             Log In
                         </Link>
-                        <Link href={`${PAGES.DOWNLOAD_FREE}`} className="px-5 py-2.5 bg-[#00FF66] text-black font-black rounded-lg shadow-[0_4px_20px_rgba(0,255,102,0.2)] hover:bg-[#00d957] transition-all text-sm">
-                            Download Free
+                        <Link href={`${PAGES.PRICING_PRO}`} className="px-5 py-2.5 bg-[#00FF66] text-black font-black rounded-lg shadow-[0_4px_20px_rgba(0,255,102,0.2)] hover:bg-[#00d957] transition-all text-sm">
+                            Buy Now
                         </Link>
                     </div>
 
