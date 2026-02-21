@@ -11,7 +11,7 @@ export class NowPaymentsService {
   async createInvoice(orderId: string, amount: number, interval: string) {
     try {
       const response = await axios.post(
-        'https://api-sandbox.nowpayments.io/v1/invoice', // Використовуємо Invoice API для посилання
+        'https://api.nowpayments.io/v1/invoice', // Використовуємо Invoice API для посилання
         {
           price_amount: amount,
           price_currency: 'usd',
