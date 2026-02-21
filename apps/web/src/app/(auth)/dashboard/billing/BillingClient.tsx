@@ -4,11 +4,13 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BillingService } from '@/services/billing.service';
-import { Plan } from '@repo/database'; // Імпортуємо твій Enum
+
+// ВИДАЛЕНО: import { Plan } from '@repo/database';
 
 interface BillingClientProps {
-    currentPlan: Plan | 'FREE';
-    expiryDate: Date | string | null; // Приймаємо Date або string (бо Next.js іноді серіалізує дати)
+    // Використовуємо звичайні типи замість Enum
+    currentPlan: 'PRO' | 'FREE' | string; 
+    expiryDate: Date | string | null;
 }
 
 type Step = 'plan' | 'provider' | 'checkout';
