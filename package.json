@@ -1,6 +1,11 @@
 {
   "name": "test",
   "private": true,
+  "pnpm": {
+    "overrides": {
+      "busboy": "1.6.0"
+    }
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",

@@ -11,7 +11,9 @@ export interface UserProfileResponse {
         status: SubStatus;
         currentPeriodEnd: Date | null;
     } | null;
+    oauthAccounts?: { provider: string }[];
 }
+
 
 export interface AuthResponse {
     accessToken: string;
@@ -36,3 +38,29 @@ export interface ApiSuccessResponse<T> {
 }
 
 export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;
+
+
+
+// --- DEVICES ---
+export interface DeviceResponse {
+    id: string;
+    hwid: string;
+    name: string | null;
+    lastSeen: Date;
+    createdAt: Date;
+}
+
+export interface VerifyDeviceResponse {
+    success: boolean;
+    plan: 'FREE' | 'PRO';
+    isNewDevice: boolean;
+}
+
+// --- RELEASES ---
+export interface ReleaseResponse {
+    id: string;
+    version: string;
+    downloadUrl: string;
+    changelog: string | null;
+    createdAt: Date;
+}

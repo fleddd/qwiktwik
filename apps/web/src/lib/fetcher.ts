@@ -17,10 +17,20 @@ export const fetcher = async <T>(endpoint: string, options: FetchOptions = {}): 
         token = Cookies.get('accessToken');
     }
 
-    const defaultHeaders: Record<string, string> = {
-        'Content-Type': 'application/json',
+    const isFormData = options.body instanceof FormData;
+
+    const defaultHeaders: Record<string, string> = isFormData
+        ? {}
+        : { 'Content-Type': 'application/json' };
+
+    const finalHeaders = {
+        ...defaultHeaders,
+        ...options.headers,
     };
 
+    if (isFormData) {
+        delete finalHeaders['Content-Type'];
+    }
     if (token) {
         defaultHeaders['Authorization'] = `Bearer ${token}`;
     }

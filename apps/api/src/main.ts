@@ -22,6 +22,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ZodValidationPipe());
   app.useGlobalFilters(new GlobalExceptionFilter());
 
+
   await app.listen(port);
 }
 

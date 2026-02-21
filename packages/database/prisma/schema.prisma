@@ -47,6 +47,7 @@ model User {
   subscription  Subscription?
   transactions  Transaction[]
   oauthAccounts OAuthAccount[]
+  devices       Device[] // Зв'язок з ПК користувача (HWID)
 
   passwordResetToken   String?   @unique
   passwordResetExpires DateTime?
@@ -56,7 +57,6 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-// Added model for Google/Discord logins
 model OAuthAccount {
   id                String @id @default(uuid())
   userId            String
@@ -77,7 +77,7 @@ model Subscription {
   status   SubStatus       @default(INACTIVE)
   interval BillingInterval @default(NONE)
 
-  paymentProvider        String?
+  paymentProvider        String? // 'stripe', 'coinbase', 'nowpayments'
   providerCustomerId     String?
   providerSubscriptionId String?
 
@@ -94,9 +94,9 @@ model Transaction {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   amount   Float
-  currency String
+  currency String // 'USD', 'USDT', 'BTC'
 
-  provider     String
+  provider     String // 'stripe', 'crypto'
   providerTxId String? @unique
 
   status       TxStatus        @default(PENDING)
@@ -104,4 +104,31 @@ model Transaction {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// НОВА МОДЕЛЬ: Пристрої (для прив'язки HWID)
+model Device {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  hwid     String // Унікальний ідентифікатор заліза від С++ клієнта
+  name     String? // Опціонально: назва ПК (напр. "DESKTOP-X99")
+  lastSeen DateTime @default(now())
+
+  createdAt DateTime @default(now())
+
+  @@unique([userId, hwid])
+}
+
+// НОВА МОДЕЛЬ: Релізи (Версії десктопної програми)
+model Release {
+  id          String  @id @default(uuid())
+  version     String  @unique // Наприклад: "1.0.0"
+  downloadUrl String // Посилання на .exe файл
+  changelog   String? @db.Text // Що нового в цій версії
+
+  isActive Boolean @default(true) // Чи показувати на сайті/в програмі
+
+  createdAt DateTime @default(now())
 }

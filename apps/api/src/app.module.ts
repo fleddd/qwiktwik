@@ -4,6 +4,9 @@ import { validate } from './config/env.validation';
 import { AuthModule } from './modules/auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './modules/users/users.module';
+import { BillingModule } from './modules/billing/billing.module';
+import { DevicesModule } from './modules/devices/devices.module';
+import { ReleasesModule } from './modules/releases/releases.module';
 
 @Module({
   imports: [
@@ -14,7 +17,10 @@ import { UsersModule } from './modules/users/users.module';
     }),
     PrismaModule,
     AuthModule,
-    UsersModule
+    UsersModule,
+    BillingModule,
+    DevicesModule,
+    ReleasesModule
   ],
 })
 export class AppModule { }
