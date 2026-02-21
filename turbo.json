@@ -1,5 +1,5 @@
 {
-  "$schema": "https://turborepo.dev/schema.json",
+  "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
     "build": {
@@ -12,10 +12,24 @@
       ],
       "outputs": [
         ".next/**",
-        "!.next/cache/**"
+        "!.next/cache/**",
+        "dist/**"
       ]
     },
+    "@repo/database#build": {
+      "dependsOn": [
+        "^generate"
+      ],
+      "outputs": [
+        "node_modules/.prisma/client/**",
+        "node_modules/@prisma/client/**"
+      ],
+      "cache": false
+    },
     "generate": {
+      "dependsOn": [
+        "^generate"
+      ],
       "cache": false
     },
     "db:push": {

@@ -1,4 +1,4 @@
-import { Plan, SubStatus, Role } from '@prisma/client'; // або звідки ти їх експортуєш
+import { Plan, SubStatus, Role } from '@repo/database'; // або звідки ти їх експортуєш
 
 export interface UserProfileResponse {
     id: string;
