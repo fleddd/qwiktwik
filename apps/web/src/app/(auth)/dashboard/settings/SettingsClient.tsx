@@ -247,7 +247,7 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
                             </div>
                             {passwordMessage.text && <p className={`text-sm ${passwordMessage.type === 'error' ? 'text-red-400' : 'text-accent'}`}>{passwordMessage.text}</p>}
                             <div className="flex justify-end pt-4">
-                                <button type="submit" disabled={isSavingPassword || !passwords.current} className="px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl transition-all">
+                                <button type="submit" disabled={isSavingPassword || !passwords.current} className="cursor-pointer px-8 py-3 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl transition-all">
                                     Update Password
                                 </button>
                             </div>

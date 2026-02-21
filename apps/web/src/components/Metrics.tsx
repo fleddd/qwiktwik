@@ -89,8 +89,6 @@ export default function Metrics() {
                     if (p.id === 'qwik') return { ...p, status: 'Optimizing', color: 'text-blue-400', bg: 'bg-blue-500/10', cpu: 2.5 };
                     return { ...p, status: 'Suspended', color: 'text-text-muted', bg: 'bg-transparent', cpu: p.cpu * 0.5, ram: p.ram * 0.8 };
                 }));
-                setFps(prev => Math.min(299, prev + 25));
-                setPing(prev => Math.max(12, prev - 4));
             }, 100);
 
             setTimeout(() => {
@@ -119,7 +117,7 @@ export default function Metrics() {
                     if (p.id === 'cs2') return { ...p, cpu: 92.4 + (Math.random() * 2 - 1), ram: 4250 + (Math.random() * 10 - 5) };
                     return p;
                 }));
-                setFps(295 + Math.floor(Math.random() * 6));
+                setFps(145 + Math.floor(Math.random() * 6));
                 setPing(12 + Math.floor(Math.random() * 2));
             }, 1000);
         }

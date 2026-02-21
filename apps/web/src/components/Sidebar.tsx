@@ -45,7 +45,7 @@ export default function Sidebar({ user }: { user: UserProfileResponse }) {
         <>
             {/* МОБІЛЬНА ВЕРХНЯ ПАНЕЛЬ (видно тільки на малих екранах) */}
             <div className="md:hidden flex items-center justify-between p-5 bg-[#0a0a0c] border-b border-white/5 sticky top-0 z-40">
-                <Link href="/" className="text-xl font-black flex items-center gap-2 text-accent">
+                <Link href="/dashboard" className="text-xl font-black flex items-center gap-2 text-accent">
                     <svg viewBox="0 0 24 24" className="fill-current w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                     QwikTwik
                 </Link>
@@ -76,7 +76,7 @@ export default function Sidebar({ user }: { user: UserProfileResponse }) {
 
                 {/* Логотип та кнопка закриття (мобільний) */}
                 <div className="flex items-center justify-between mb-10">
-                    <Link href="/" className="text-xl font-black flex items-center gap-2 text-accent">
+                    <Link href="/dashboard" className="text-xl font-black flex items-center gap-2 text-accent">
                         <svg viewBox="0 0 24 24" className="fill-current w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                         <span>QwikTwik</span>
                     </Link>
