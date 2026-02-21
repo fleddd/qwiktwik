@@ -1,4 +1,4 @@
-import { Plan, SubStatus, Role } from '@repo/database'; // або звідки ти їх експортуєш
+import { Plan, SubStatus, Role, BillingInterval, TxStatus } from '@repo/database'; // або звідки ти їх експортуєш
 
 export interface UserProfileResponse {
     id: string;
@@ -63,4 +63,17 @@ export interface ReleaseResponse {
     downloadUrl: string;
     changelog: string | null;
     createdAt: Date;
+}
+
+export interface TransactionResponse {
+    id: string;
+    userId: string;
+    amount: number;
+    currency: string;
+    provider: string;
+    providerTxId: string | null;
+    status: TxStatus;
+    intervalPaid: BillingInterval;
+    createdAt: string;
+    updatedAt: string;
 }

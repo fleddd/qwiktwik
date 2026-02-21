@@ -7,6 +7,8 @@ import { UsersModule } from './modules/users/users.module';
 import { BillingModule } from './modules/billing/billing.module';
 import { DevicesModule } from './modules/devices/devices.module';
 import { ReleasesModule } from './modules/releases/releases.module';
+import { ScheduleModule } from '@nestjs/schedule';
+
 
 @Module({
   imports: [
@@ -15,6 +17,7 @@ import { ReleasesModule } from './modules/releases/releases.module';
       validate,
       envFilePath: '.env',
     }),
+    ScheduleModule.forRoot(),
     PrismaModule,
     AuthModule,
     UsersModule,
