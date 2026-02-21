@@ -18,7 +18,7 @@ export const AuthService = {
     },
 
     getProfile: async () => {
-        return fetcher<UserProfileResponse>('/auth/me', {
+        return fetcher<UserProfileResponse>('/users/me', {
             method: 'GET',
         });
     },

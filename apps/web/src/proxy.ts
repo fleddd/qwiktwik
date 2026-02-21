@@ -1,48 +1,62 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-export function proxy(request: NextRequest) {
+export async function proxy(request: NextRequest) {
     const url = request.nextUrl.clone();
+    const token = request.cookies.get('accessToken')?.value;
 
-    // 1. OAUTH HANDLER: Intercept token from URL query params
+    // 1. OAUTH HANDLER (твій код)
     const tokenFromQuery = url.searchParams.get('token');
-
     if (tokenFromQuery) {
-        // Remove token from URL to keep it clean and secure
         url.searchParams.delete('token');
-
-        // Redirect to the clean URL
         const response = NextResponse.redirect(url);
-
-        // Set the token in cookies for future requests (valid for 7 days)
         response.cookies.set('accessToken', tokenFromQuery, {
             path: '/',
             maxAge: 60 * 60 * 24 * 7,
             sameSite: 'lax',
             secure: process.env.NODE_ENV === 'production',
         });
-
         return response;
     }
 
-    // 2. ROUTE PROTECTION HANDLER
-    const token = request.cookies.get('accessToken')?.value;
     const isAuthPage = url.pathname === '/login' || url.pathname === '/signup';
     const isDashboardPage = url.pathname.startsWith('/dashboard');
 
-    // If trying to access dashboard without a token -> send to login
+    // 2. ЗАХИСТ: Немає токена -> на логін
     if (isDashboardPage && !token) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    // If trying to access login/signup while already logged in -> send to dashboard
-    if (isAuthPage && token) {
-        return NextResponse.redirect(new URL('/dashboard', request.url));
+    // 3. ПЕРЕВІРКА ВАЛІДНОСТІ (щоб уникнути фейкових або прострочених кук)
+    if (token) {
+        try {
+            // Робимо швидкий запит на бек (наш майбутній /users/me)
+            const verifyRes = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users/me`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            // Якщо бек каже 401 (токен прострочений або недійсний)
+            if (!verifyRes.ok) {
+                if (isDashboardPage) {
+                    const response = NextResponse.redirect(new URL('/login', request.url));
+                    response.cookies.delete('accessToken'); // Чистимо "труп" токена
+                    return response;
+                }
+            } else {
+                // Якщо токен ОК, а юзер намагається зайти на логін/реєстрацію
+                if (isAuthPage) {
+                    return NextResponse.redirect(new URL('/dashboard', request.url));
+                }
+            }
+        } catch (err) {
+            // Якщо бекенд лежить — краще пропустити, сторінка покаже Error State
+            return NextResponse.next();
+        }
     }
 
     return NextResponse.next();
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/login', '/signup', '/forgot-password'],
+    matcher: ['/dashboard/:path*', '/login', '/signup'],
 };
