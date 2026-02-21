@@ -4,10 +4,9 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BillingService } from '@/services/billing.service';
-import { Plan } from '@repo/database'; // Імпортуємо твій Enum
 
 interface BillingClientProps {
-    currentPlan: Plan | 'FREE';
+    currentPlan: "FREE" | 'FREE';
     expiryDate: Date | string | null; // Приймаємо Date або string (бо Next.js іноді серіалізує дати)
 }
 
