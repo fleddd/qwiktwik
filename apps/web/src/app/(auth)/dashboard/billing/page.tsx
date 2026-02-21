@@ -1,14 +1,14 @@
 import { AuthService } from '@/services/auth.service';
 import BillingClient from './BillingClient';
-import { Plan } from '@repo/database';
+// ВИДАЛЕНО: import { Plan } from '@repo/database';
 
 export default async function BillingPage() {
     const response = await AuthService.getProfile();
 
-    // Використовуємо enum Plan. Якщо підписки немає, дефолт - FREE
+    // Використовуємо звичайні стрічки замість enum
     const currentPlan = response.success && response.data?.subscription
         ? response.data.subscription.plan
-        : 'FREE' as Plan;
+        : 'FREE';
 
     const expiryDate = response.success && response.data?.subscription
         ? response.data.subscription.currentPeriodEnd
