@@ -16,3 +16,18 @@ export const DevicesService = {
         });
     },
 };
+
+
+export const AdminDevicesService = {
+    getAll: async () => {
+        return fetcher<any[]>('/devices/admin/all', {
+            method: 'GET',
+        });
+    },
+
+    resetHwid: async (id: string) => {
+        return fetcher(`/devices/admin/${id}`, {
+            method: 'DELETE',
+        });
+    }
+};

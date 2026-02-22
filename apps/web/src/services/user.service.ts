@@ -33,3 +33,20 @@ export const UsersService = {
         });
     }
 };
+
+
+export const AdminService = {
+    getAllUsers: async () => {
+        // Тут ми очікуємо будь-який масив (можеш типізувати пізніше)
+        return fetcher<any[]>('/users', {
+            method: 'GET',
+        });
+    },
+
+    updateUser: async (id: string, data: { role?: string; plan?: string }) => {
+        return fetcher(`/users/${id}/admin`, {
+            method: 'PATCH',
+            body: JSON.stringify(data),
+        });
+    }
+};

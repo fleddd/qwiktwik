@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Delete, Post, Param, Body, Request, UseGuards, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
+import { Controller, Get, Patch, Delete, Post, Param, Body, Request, UseGuards, UseInterceptors, UploadedFile, BadRequestException, ForbiddenException } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UsersService } from './users.service';
 import { UserProfileResponse } from '@repo/types';
@@ -6,6 +6,8 @@ import { UpdateProfileDto } from './dto/update-profile.dto';
 import { UpdatePasswordDto } from './dto/update-password.dto';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
 import { CloudinaryService } from '../cloudinary/cloudinary.service';
+import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Roles } from 'src/common/decorators/roles.decorator';
 
 @UseGuards(JwtAuthGuard)
 @Controller('users')
@@ -49,6 +51,21 @@ export class UsersController {
     return { success: true, message: `${provider} disconnected successfully` };
   }
 
+  @Get()
+  @Roles('ADMIN')
+  async getAllUsers() {
+    return this.usersService.findAll();
+  }
+
+  @Patch(':id/admin')
+  @Roles('ADMIN')
+  async updateUserAsAdmin(
+    @Param('id') id: string,
+    @Body() body: { role?: any; plan?: any }
+  ) {
+    await this.usersService.adminUpdateUser(id, body);
+    return { success: true, message: 'User updated successfully' };
+  }
 
   @Post('me/avatar')
   @UseInterceptors(FileInterceptor('file', {

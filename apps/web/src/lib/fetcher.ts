@@ -11,37 +11,35 @@ export const fetcher = async <T>(endpoint: string, options: FetchOptions = {}): 
     let token: string | undefined;
 
     if (typeof window === 'undefined') {
+        // Серверний компонент
         const { cookies } = await import('next/headers');
         token = (await cookies()).get('accessToken')?.value;
     } else {
+        // Клієнтський компонент
         token = Cookies.get('accessToken');
+
+        // ДЕБАГ: Перевір у консолі браузера, чи читається токен взагалі
+        // Якщо тут undefined, значить кука HttpOnly
+        console.log('Client-side token:', token ? 'Found' : 'Missing!');
     }
 
     const isFormData = options.body instanceof FormData;
 
-    const defaultHeaders: Record<string, string> = isFormData
-        ? {}
-        : { 'Content-Type': 'application/json' };
-
-    const finalHeaders = {
-        ...defaultHeaders,
+    // Формуємо заголовки правильно
+    const finalHeaders: Record<string, string> = {
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
         ...options.headers,
     };
 
-    if (isFormData) {
-        delete finalHeaders['Content-Type'];
-    }
     if (token) {
-        defaultHeaders['Authorization'] = `Bearer ${token}`;
+        finalHeaders['Authorization'] = `Bearer ${token}`;
     }
 
     try {
         const response = await fetch(`${API_URL}${endpoint}`, {
             ...options,
-            headers: {
-                ...defaultHeaders,
-                ...options.headers,
-            },
+            headers: finalHeaders,
+            credentials: 'include', // ОДНОЗНАЧНО ДОДАТИ ЦЕ! Дозволяє відправку куків на localhost:3001
         });
 
         if (response.status === 204) {
@@ -49,6 +47,11 @@ export const fetcher = async <T>(endpoint: string, options: FetchOptions = {}): 
         }
 
         const data = await response.json();
+
+        // Можна також додати глобальний перехват 401/403 для редиректу на логін
+        if (!response.ok) {
+            console.error(`Fetch error [${response.status}]:`, data);
+        }
 
         return data as ApiResponse<T>;
 
@@ -58,7 +61,7 @@ export const fetcher = async <T>(endpoint: string, options: FetchOptions = {}): 
             error: {
                 status: 500,
                 code: 'NETWORK_OR_SERVER_ERROR',
-                message: 'Не вдалося зʼєднатися з сервером. Перевірте підключення.',
+                message: 'Could not connect to the server. Check your connection.',
                 details: error instanceof Error ? error.message : String(error),
             },
         };

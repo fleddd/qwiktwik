@@ -16,3 +16,32 @@ export const ReleasesService = {
         });
     },
 };
+
+
+export const AdminReleasesService = {
+    getAll: async () => {
+        return fetcher<any[]>('/releases/admin/all', {
+            method: 'GET',
+        });
+    },
+
+    create: async (data: { version: string; downloadUrl: string; changelog?: string; isActive: boolean }) => {
+        return fetcher<any>('/releases/admin', {
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+    },
+
+    update: async (id: string, data: Partial<{ version: string; downloadUrl: string; changelog: string; isActive: boolean }>) => {
+        return fetcher<any>(`/releases/admin/${id}`, {
+            method: 'PUT',
+            body: JSON.stringify(data),
+        });
+    },
+
+    delete: async (id: string) => {
+        return fetcher<any>(`/releases/admin/${id}`, {
+            method: 'DELETE',
+        });
+    }
+};

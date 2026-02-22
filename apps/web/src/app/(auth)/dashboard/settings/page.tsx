@@ -10,10 +10,10 @@ export default async function SettingsPage() {
 
     return (
         <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <header className="mb-10">
+            <div className="mb-10">
                 <h1 className="text-3xl font-black mb-2 tracking-tight">Account Settings</h1>
-                <p className="text-text-muted text-sm">Керуйте своїм профілем, безпекою та підключеними акаунтами.</p>
-            </header>
+                <p className="text-text-muted text-sm">Manage your profile, security, and connected accounts.</p>
+            </div>
 
             <SettingsClient user={user} />
         </div>

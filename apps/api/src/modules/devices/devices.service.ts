@@ -10,9 +10,28 @@ export class DevicesService {
   // Максимальна кількість ПК для різних планів
   private readonly DEVICE_LIMITS = {
     FREE: 1,
-    PRO: 9999,
+    PRO: 3,
   };
 
+  async getAllDevicesForAdmin() {
+    return this.prisma.device.findMany({
+      include: {
+        user: {
+          select: { email: true, name: true }
+        }
+      },
+      orderBy: { lastSeen: 'desc' },
+    });
+  }
+  async adminDeleteDevice(deviceId: string) {
+    const device = await this.prisma.device.findUnique({ where: { id: deviceId } });
+
+    if (!device) {
+      throw new NotFoundException('Device not found');
+    }
+
+    return this.prisma.device.delete({ where: { id: deviceId } });
+  }
   async verifyDevice(userId: string, dto: VerifyDeviceDto): Promise<VerifyDeviceResponse> {
     const user = await this.prisma.user.findUnique({
       where: { id: userId },

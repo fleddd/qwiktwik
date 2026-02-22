@@ -40,6 +40,41 @@ export class UsersService {
     });
   }
 
+  async findAll() {
+    // Дістаємо всіх юзерів і приєднуємо їхню підписку
+    return this.prisma.user.findMany({
+      orderBy: { createdAt: 'desc' },
+      include: {
+        subscription: {
+          select: { plan: true, status: true }
+        }
+      }
+    });
+  }
+
+  async adminUpdateUser(userId: string, data: { role?: any; plan?: any }) {
+    // 1. Оновлюємо роль юзера, якщо її передали
+    if (data.role) {
+      await this.prisma.user.update({
+        where: { id: userId },
+        data: { role: data.role },
+      });
+    }
+
+    if (data.plan) {
+      await this.prisma.subscription.upsert({
+        where: { userId: userId },
+        update: { plan: data.plan },
+        create: {
+          userId: userId,
+          plan: data.plan,
+          status: 'ACTIVE'
+        },
+      });
+    }
+    return true;
+  }
+
   async updatePassword(id: string, dto: UpdatePasswordInput): Promise<void> {
     const user = await this.prisma.user.findUnique({ where: { id } });
 

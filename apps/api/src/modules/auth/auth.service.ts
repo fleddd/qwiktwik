@@ -158,7 +158,12 @@ export class AuthService {
   // --- HELPER METHODS ---
 
   private generateToken(user: any) {
-    const payload = { sub: user.id, email: user.email };
+    const payload = {
+      sub: user.id,
+      email: user.email,
+      role: user.role
+    };
+
     return {
       accessToken: this.jwtService.sign(payload),
       user: {
