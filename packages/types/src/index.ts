@@ -77,3 +77,19 @@ export interface TransactionResponse {
     createdAt: string;
     updatedAt: string;
 }
+
+
+export interface ReviewResponse {
+    id: string;
+    userId: string;
+    rating: number;
+    text: string;
+    createdAt: string;
+    user: {
+        name: string | null;
+        avatar: string | null;
+        subscription: {
+            plan: Plan;
+        } | null;
+    };
+}

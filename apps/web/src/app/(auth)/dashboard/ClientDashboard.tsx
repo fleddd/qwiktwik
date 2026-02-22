@@ -25,7 +25,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
     };
 
     const displayPlan = user.subscription?.plan || 'Free Tier';
-    const isPremium = user.subscription?.plan === 'PRO' || user.subscription?.plan !== 'FREE';
+    const isPro = user.subscription?.plan === 'PRO' || user.subscription?.plan !== 'FREE';
 
     return (
         <div className="min-h-screen bg-[#050505] text-white flex flex-col md:flex-row">
@@ -96,7 +96,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
-                        <span className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${isPremium
+                        <span className={`px-4 py-2 rounded-full text-xs font-black uppercase tracking-widest border ${isPro
                             ? 'bg-accent/10 border-accent/20 text-accent'
                             : 'bg-white/5 border-white/10 text-white'
                             }`}>
@@ -119,11 +119,11 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Active Tweak Count</p>
-                                    <h3 className="text-4xl font-black text-white">{isPremium ? '72' : '15'}<span className="text-accent">/{isPremium ? '75' : '15'}</span></h3>
+                                    <h3 className="text-4xl font-black text-white">{isPro ? '72' : '15'}<span className="text-accent">/{isPro ? '75' : '15'}</span></h3>
                                 </div>
                                 <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Latency Gain</p>
-                                    <h3 className="text-4xl font-black text-accent">{isPremium ? '-14%' : '-4%'}</h3>
+                                    <h3 className="text-4xl font-black text-accent">{isPro ? '-14%' : '-4%'}</h3>
                                 </div>
                                 <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Hardware Sync</p>
@@ -135,11 +135,11 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
                             <div className="grid grid-cols-1 gap-8">
                                 <div className="bg-accent/5 border border-accent/20 rounded-3xl p-8 relative overflow-hidden flex flex-col justify-center items-center text-center">
                                     <div className="absolute top-0 right-0 p-4 font-mono text-[8px] opacity-20 text-accent">
-                                        {isPremium ? '75+ TWEAKS LOADED' : 'BASIC TWEAKS ONLY'}
+                                        {isPro ? '75+ TWEAKS LOADED' : 'BASIC TWEAKS ONLY'}
                                     </div>
-                                    <h4 className="text-2xl font-black mb-4">{isPremium ? 'Elite Access Key' : 'Upgrade to Pro/Elite'}</h4>
+                                    <h4 className="text-2xl font-black mb-4">{isPro ? 'Elite Access Key' : 'Upgrade to Pro/Elite'}</h4>
 
-                                    {isPremium ? (
+                                    {isPro ? (
                                         <>
                                             <div className="bg-black/50 border border-accent/30 px-6 py-4 rounded-2xl font-mono text-accent text-lg mb-6 w-full max-w-md flex justify-between items-center">
                                                 <span>QT-{user.id.substring(0, 4).toUpperCase()}-PRO</span>

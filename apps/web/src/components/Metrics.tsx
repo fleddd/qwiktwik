@@ -134,7 +134,7 @@ export default function Metrics() {
     };
 
     return (
-        <section className="py-12 relative overflow-hidden flex items-center min-h-screen" id="features">
+        <section className="py-12 relative overflow-hidden flex items-center min-h-screen">
             <div className="max-w-5xl mx-auto px-6 w-full">
 
                 <FadeIn>

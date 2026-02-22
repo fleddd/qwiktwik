@@ -8,6 +8,7 @@ import { BillingModule } from './modules/billing/billing.module';
 import { DevicesModule } from './modules/devices/devices.module';
 import { ReleasesModule } from './modules/releases/releases.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { ReviewsModule } from './modules/reviews/reviews.module';
 
 
 @Module({
@@ -23,7 +24,8 @@ import { ScheduleModule } from '@nestjs/schedule';
     UsersModule,
     BillingModule,
     DevicesModule,
-    ReleasesModule
+    ReleasesModule,
+    ReviewsModule
   ],
 })
 export class AppModule { }

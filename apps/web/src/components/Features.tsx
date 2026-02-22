@@ -86,7 +86,7 @@ export default function Features() {
     ];
 
     return (
-        <section className="py-16 md:py-24 bg-gradient-to-b from-transparent via-[#0f0f11]/80 to-transparent relative overflow-hidden" id="features">
+        <section className="scroll-mt-20 py-16 md:py-24 bg-gradient-to-b from-transparent via-[#0f0f11]/80 to-transparent relative overflow-hidden" id="features" >
             <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 <FadeIn>
                     <div className="text-center mb-12 md:mb-20 relative">

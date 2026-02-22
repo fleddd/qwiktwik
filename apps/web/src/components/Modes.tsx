@@ -81,7 +81,7 @@ export default function Modes() {
     const [activeMode, setActiveMode] = useState(modesData[1]);
 
     return (
-        <section className="relative py-16 md:py-24" id="modes">
+        <section className="scroll-mt-20 relative py-16 md:py-24 scroll-mt-20" id="modes">
             <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
                 <FadeIn>

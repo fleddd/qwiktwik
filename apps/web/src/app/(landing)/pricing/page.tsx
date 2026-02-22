@@ -20,7 +20,7 @@ export default function ProPricing() {
             description: "Billed monthly",
             features: ["1000+ optimizations", "QwikTwik Game Mode", "Network Adapter Tuner", "Priority Support"],
             highlight: false,
-            cta: "Get Premium",
+            cta: "Get Pro",
             href: PAGES.CHECKOUT_PRO
         },
         {
@@ -32,7 +32,7 @@ export default function ProPricing() {
             description: "Billed yearly ($59.88)",
             features: ["All Monthly features", "Advanced AI Optimizer", "Kernel Priority Access", "Early Beta Access"],
             highlight: true,
-            cta: "Get Premium",
+            cta: "Get Pro",
             href: PAGES.CHECKOUT_PRO
         },
         {
@@ -90,13 +90,13 @@ export default function ProPricing() {
     ];
 
     const faqs = [
-        { q: "How do I receive premium after purchase?", a: "Simply log out and log back into the QwikTwik app. Your license will sync automatically with your hardware ID." },
+        { q: "How do I receive Pro after purchase?", a: "Simply log out and log back into the QwikTwik app. Your license will sync automatically with your hardware ID." },
         { q: "Can I cancel my subscription anytime?", a: "Yes, you can manage your subscription through your account dashboard or via our support team. No hidden fees." },
         { q: "Are tweaks locked to one PC?", a: "Yes, licenses are hardware-bound (HWID). However, we offer free system transfers if you buy a new PC." }
     ];
 
     return (
-        <div className="min-h-screen pt-32 pb-20  text-white overflow-hidden">
+        <div className="min-h-screen pt-24 pb-20  text-white overflow-hidden">
             {/* Hero section */}
             <div className="max-w-7xl mx-auto px-6 text-center mb-10">
                 <FadeIn>
@@ -104,7 +104,7 @@ export default function ProPricing() {
                         Unlock Your PC's <span className="text-accent">Full Potential</span>
                     </h1>
                     <p className="text-text-muted text-md max-w-2xl mx-auto font-body">
-                        Completely optimize your system for maximum FPS and ultra-low latency with Pro Elite.
+                        Completely optimize your system for maximum FPS and ultra-low latency with Pro.
                     </p>
                 </FadeIn>
             </div>

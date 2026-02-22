@@ -2,14 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation'; // Додали хуки для навігації
 import { motion, AnimatePresence } from 'framer-motion';
 import { PAGES } from '@/constants/pages';
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
-    const pathname = usePathname();
-    const router = useRouter();
 
     useEffect(() => {
         const handleResize = () => {
@@ -23,44 +20,26 @@ export default function Navbar() {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
         } else {
-            document.body.style.overflow = 'unset';
+            document.body.style.overflow = '';
         }
+
+        return () => {
+            document.body.style.overflow = '';
+        };
     }, [isOpen]);
 
-    // Розділяємо лінки на ті, що скролять (sectionId), і ті, що переходять на інші сторінки (href)
+    // ТУТ ЗАГЛУШКИ ДЛЯ ТВОЇХ СТОРІНОК
     const navLinks = [
-        { label: 'Features', sectionId: 'features' },
-        { label: 'Modes', sectionId: 'modes' },
-        { label: 'Pro Version', sectionId: 'pro' },
-        { label: 'Docs', href: PAGES.DOCS, highlight: true },
-        { label: 'FAQ', sectionId: 'faq' },
+        { label: 'Download', href: PAGES.SIGNUP },
+        { label: 'Reviews', href: PAGES.REVIEWS },
+        { label: 'Pro', href: PAGES.PRICING_PRO },
+        { label: 'How It Works', href: PAGES.DOCS, highlight: true },
     ];
 
-    // Функція програмного скролу
-    const handleNavigation = (link: { label: string, sectionId?: string, href?: string }) => {
-        setIsOpen(false); // Закриваємо мобільне меню при кліку
-
-        if (link.sectionId) {
-            if (pathname === PAGES.HOME) {
-                // Якщо ми ВЖЕ на головній сторінці - робимо плавний скрол
-                const element = document.getElementById(link.sectionId);
-                if (element) {
-                    const navHeight = 80; // Приблизна висота нашого хедера, щоб заголовок не ховався під нього
-                    const top = element.getBoundingClientRect().top + window.scrollY;
-
-                    window.scrollTo({
-                        top: top,
-                        behavior: 'smooth'
-                    });
-                }
-            } else {
-                // Якщо ми на сторінці Docs, а клікнули Features - кидаємо на головну з хешем
-                router.push(`${PAGES.HOME}#${link.sectionId}`);
-            }
-        } else if (link.href) {
-            // Якщо це звичайний лінк (наприклад, Docs)
-            router.push(link.href);
-        }
+    // Функція для закриття мобільного меню при переході
+    const handleMobileClick = () => {
+        setIsOpen(false);
+        document.body.style.overflow = '';
     };
 
     return (
@@ -70,37 +49,41 @@ export default function Navbar() {
                     <Link
                         href={PAGES.HOME}
                         className="text-2xl font-black flex items-center gap-2 tracking-tight z-[2100]"
-                        onClick={() => setIsOpen(false)}
+                        onClick={handleMobileClick}
                     >
                         <svg viewBox="0 0 24 24" className="fill-[#00FF66] w-5 h-5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                         QwikTwik
                     </Link>
 
-                    {/* Desktop Menu */}
                     <ul className="hidden md:flex gap-8">
                         {navLinks.map((link) => (
                             <li key={link.label}>
-                                <button
-                                    onClick={() => handleNavigation(link)}
-                                    className={`text-sm font-bold transition-colors cursor-pointer ${link.highlight ? 'text-[#00FF66] hover:text-[#00d957]' : 'text-[#94a3b8] hover:text-white'
+                                <Link
+                                    href={link.href}
+                                    className={`text-sm font-bold transition-colors cursor-pointer block ${link.highlight ? 'text-[#00FF66] hover:text-[#00d957]' : 'text-[#94a3b8] hover:text-white'
                                         }`}
                                 >
                                     {link.label}
-                                </button>
+                                </Link>
                             </li>
                         ))}
                     </ul>
 
                     <div className="hidden md:flex items-center gap-4">
-                        <Link href={PAGES.LOGIN} className="text-white hover:text-[#00FF66] font-bold text-sm transition-colors">
+                        <Link
+                            href={PAGES.LOGIN}
+                            className="text-white hover:text-[#00FF66] font-bold text-sm transition-colors"
+                        >
                             Log In
                         </Link>
-                        <Link href={`${PAGES.PRICING_PRO}`} className="px-5 py-2.5 bg-[#00FF66] text-black font-black rounded-lg shadow-[0_4px_20px_rgba(0,255,102,0.2)] hover:bg-[#00d957] transition-all text-sm">
+                        <Link
+                            href={`${PAGES.PRICING_PRO}`}
+                            className="px-5 py-2.5 bg-[#00FF66] text-black font-black rounded-lg shadow-[0_4px_20px_rgba(0,255,102,0.2)] hover:bg-[#00d957] transition-all text-sm"
+                        >
                             Buy Now
                         </Link>
                     </div>
 
-                    {/* Burger Button */}
                     <button
                         className="md:hidden z-[2100] w-10 h-10 flex flex-col justify-center items-center gap-1.5 focus:outline-none"
                         onClick={() => setIsOpen(!isOpen)}
@@ -122,7 +105,6 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Menu */}
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
@@ -141,13 +123,14 @@ export default function Navbar() {
                                         animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: i * 0.05 }}
                                     >
-                                        <button
-                                            onClick={() => handleNavigation(link)}
-                                            className={`text-4xl font-black text-left w-full cursor-pointer ${link.highlight ? 'text-[#00FF66]' : 'text-white'
+                                        <Link
+                                            href={link.href}
+                                            onClick={handleMobileClick}
+                                            className={`text-4xl font-black text-left w-full cursor-pointer block ${link.highlight ? 'text-[#00FF66]' : 'text-white'
                                                 }`}
                                         >
                                             {link.label}
-                                        </button>
+                                        </Link>
                                     </motion.li>
                                 ))}
                             </ul>
@@ -155,17 +138,18 @@ export default function Navbar() {
                             <div className="flex flex-col gap-4 mt-8">
                                 <Link
                                     href={PAGES.LOGIN}
-                                    onClick={() => setIsOpen(false)}
+                                    onClick={handleMobileClick}
                                     className="w-full py-4 text-white font-bold text-center text-xl bg-white/5 border border-white/10 rounded-2xl"
                                 >
                                     Log In
                                 </Link>
-                                <button
-                                    onClick={() => handleNavigation({ label: 'Pro Version', sectionId: 'pro' })}
-                                    className="w-full py-4 bg-[#00FF66] text-black font-black rounded-2xl text-center text-xl shadow-[0_0_20px_rgba(0,255,102,0.3)] active:scale-95 transition-transform"
+                                <Link
+                                    href="/tvoye-posylannya-5" // <--- ЗАГЛУШКА ДЛЯ КНОПКИ PRO В МОБІЛЬНОМУ МЕНЮ
+                                    onClick={handleMobileClick}
+                                    className="w-full py-4 bg-[#00FF66] text-black font-black rounded-2xl text-center text-xl shadow-[0_0_20px_rgba(0,255,102,0.3)] active:scale-95 transition-transform block"
                                 >
                                     View Pro Plans
-                                </button>
+                                </Link>
                             </div>
                         </div>
                     </motion.div>

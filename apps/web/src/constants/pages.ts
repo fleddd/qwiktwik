@@ -9,5 +9,6 @@ export const PAGES = {
     PRICING_FREE: '/free',
     PRICING_PRO: '/pricing',
     DOWNLOAD_FREE: '/signup',
-    CHECKOUT_PRO: '/signup?plan=pro'
+    CHECKOUT_PRO: '/signup?plan=pro',
+    REVIEWS: '/reviews'
 };

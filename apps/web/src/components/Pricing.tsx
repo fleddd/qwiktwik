@@ -5,7 +5,7 @@ import { PAGES } from '@/constants/pages';
 
 export default function Pricing() {
     return (
-        <section className="py-16 md:py-24 relative overflow-hidden" id="pro">
+        <section className="py-16 md:py-24 relative overflow-hidden scroll-mt-20" id="pro">
             {/* Глобальне фонове світіння */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent blur-[200px] rounded-full opacity-[0.04] pointer-events-none"></div>
 
@@ -56,7 +56,7 @@ export default function Pricing() {
                         </div>
                     </FadeIn>
 
-                    {/* КАРТКА PRO ELITE */}
+                    {/* КАРТКА Pro */}
                     <FadeIn delay={0.2} className="h-full flex">
                         {/* Видалено mt-4, щоб картки були ідеально рівними */}
                         <div className="group bg-[#0a0a0c] border border-accent/30 shadow-[0_0_30px_rgba(0,255,102,0.08)] rounded-3xl p-5 md:p-8 flex flex-col h-full w-full relative transition-all duration-500 hover:shadow-[0_0_50px_rgba(0,255,102,0.15)] hover:border-accent/60 md:hover:-translate-y-1 overflow-hidden">
@@ -72,7 +72,7 @@ export default function Pricing() {
 
                             <div className="mb-6 md:mb-8 relative z-10">
                                 <h3 className="text-lg md:text-2xl font-bold mb-1 text-accent flex items-center gap-2">
-                                    Pro Elite
+                                    Pro
                                     <svg viewBox="0 0 24 24" className="w-4 h-4 md:w-5 md:h-5 fill-accent"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                                 </h3>
 

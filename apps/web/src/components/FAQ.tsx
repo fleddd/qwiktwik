@@ -33,7 +33,7 @@ export default function FAQ() {
     ];
 
     return (
-        <section className="py-16 md:py-24 relative" id="faq">
+        <section className="py-16 md:py-24 relative scroll-mt-20" id="faq">
             <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10">
                 <FadeIn>
                     <h2 className="text-3xl md:text-5xl font-extrabold text-center mb-10 md:mb-16 tracking-tight">Frequently Asked Questions</h2>

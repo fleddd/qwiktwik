@@ -45,8 +45,8 @@ export class SubscriptionGuard implements CanActivate {
 
 /*
 @UseGuards(JwtAuthGuard, SubscriptionGuard) // <--- 
-@Get('premium-tweaks')
-async getPremiumTweaks() {
+@Get('Pro-tweaks')
+async getProTweaks() {
     return this.optimizationService.getProSettings();
 }
 */

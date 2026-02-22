@@ -46,8 +46,8 @@ export default function Legal() {
                                 <h2 className="text-white text-xl font-bold mb-4">2. Software Functionality and Risks</h2>
                                 <p className="mb-6">QwikTwik interacts directly with the Windows Registry, Kernel states, and hardware allocation. While we test our profiles extensively, modifying system parameters carries inherent risks. You acknowledge that QwikTwik is provided "as is" and we are not liable for system instability, data loss, or hardware malfunction.</p>
 
-                                <h2 className="text-white text-xl font-bold mb-4">3. Pro Elite Subscription</h2>
-                                <p className="mb-6">Certain features require a paid "Pro Elite" subscription. Payments are processed securely via third-party providers. Subscriptions auto-renew unless canceled prior to the billing cycle.</p>
+                                <h2 className="text-white text-xl font-bold mb-4">3. Pro Subscription</h2>
+                                <p className="mb-6">Certain features require a paid "Pro" subscription. Payments are processed securely via third-party providers. Subscriptions auto-renew unless canceled prior to the billing cycle.</p>
                             </motion.div>
                         )}
 
@@ -60,7 +60,7 @@ export default function Legal() {
                                 <p className="mb-6">The QwikTwik client runs locally. We only collect anonymized crash reports if you explicitly opt-in during installation. This data is strictly used to improve engine stability.</p>
 
                                 <h2 className="text-white text-xl font-bold mb-4">3. Payment Information</h2>
-                                <p className="mb-6">When you upgrade to Pro Elite, your payment details are handled securely by our payment processor (e.g., Stripe). We do not store or have direct access to your credit card information.</p>
+                                <p className="mb-6">When you upgrade to Pro, your payment details are handled securely by our payment processor (e.g., Stripe). We do not store or have direct access to your credit card information.</p>
                             </motion.div>
                         )}
                     </AnimatePresence>
