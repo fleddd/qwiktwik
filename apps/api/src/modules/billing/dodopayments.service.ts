@@ -2,23 +2,30 @@ import { Injectable, InternalServerErrorException, Logger, BadRequestException }
 import axios from 'axios';
 import * as crypto from 'crypto';
 import { BillingInterval } from '@repo/database';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DodoPaymentsService {
     private readonly logger = new Logger(DodoPaymentsService.name);
-
-    private readonly apiUrl = process.env.NODE_ENV === 'production'
-        ? 'https://live.dodopayments.com'
-        : 'https://test.dodopayments.com';
-
     private readonly apiKey = process.env.DODO_PAYMENTS_API_KEY;
     private readonly webhookSecret = process.env.DODO_PAYMENTS_WEBHOOK_SECRET;
 
+    private readonly apiUrl: string;
     private readonly products = {
         [BillingInterval.MONTHLY]: process.env.DODO_PRODUCT_MONTHLY,
         [BillingInterval.YEARLY]: process.env.DODO_PRODUCT_YEARLY,
         [BillingInterval.LIFETIME]: process.env.DODO_PRODUCT_LIFETIME,
     };
+
+    constructor(
+        private readonly configService: ConfigService,
+    ) {
+        this.apiUrl = this.configService.get("NODE_ENV") === "production"
+            ? 'https://live.dodopayments.com'
+            : 'https://test.dodopayments.com';
+    }
+
+
 
     async createCheckout(transactionId: string, interval: BillingInterval, userEmail: string) {
         const productId = this.products[interval];

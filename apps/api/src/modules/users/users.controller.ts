@@ -58,7 +58,7 @@ export class UsersController {
   }
 
   @Patch(':id/admin')
-  @Roles('ADMIN')
+  @Roles('ADMIN') 
   async updateUserAsAdmin(
     @Param('id') id: string,
     @Body() body: { role?: any; plan?: any }

@@ -23,6 +23,16 @@ export class EnvironmentVariables {
     @IsUrl({ require_tld: false }) // false дозволяє localhost
     FRONTEND_URL: string;
 
+    @IsUrl({ require_tld: false })
+    BACKEND_URL: string;
+
+    // --- NOWPayments ---
+    @IsString()
+    NOWPAYMENTS_API_KEY: string;
+
+    @IsString()
+    NOWPAYMENTS_IPN_SECRET: string;
+
     // --- Google OAuth ---
     @IsString()
     GOOGLE_CLIENT_ID: string;
@@ -43,8 +53,38 @@ export class EnvironmentVariables {
     @IsString()
     DISCORD_CALLBACK_URL: string;
 
+    // --- Resend ---
     @IsString()
     RESEND_API_KEY: string;
+
+    // --- Cloudinary ---
+    @IsString()
+    CLOUDINARY_NAME: string;
+
+    @IsString()
+    CLOUDINARY_API_KEY: string;
+
+    @IsString()
+    CLOUDINARY_API_SECRET: string;
+
+    @IsString()
+    CLOUDINARY_URL: string;
+
+    // --- Dodo Payments ---
+    @IsString()
+    DODO_PAYMENTS_API_KEY: string;
+
+    @IsString()
+    DODO_PAYMENTS_WEBHOOK_SECRET: string;
+
+    @IsString()
+    DODO_PRODUCT_MONTHLY: string;
+
+    @IsString()
+    DODO_PRODUCT_YEARLY: string;
+
+    @IsString()
+    DODO_PRODUCT_LIFETIME: string;
 }
 
 export function validate(config: Record<string, unknown>) {

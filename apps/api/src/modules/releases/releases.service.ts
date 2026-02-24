@@ -5,6 +5,7 @@ import { PrismaService } from 'src/prisma/prisma.service';
 export class ReleasesService {
     constructor(private prisma: PrismaService) { }
 
+    // --- ПУБЛІЧНІ МЕТОДИ (Для клієнта / сайту) ---
 
     async getLatestRelease() {
         const release = await this.prisma.release.findFirst({
