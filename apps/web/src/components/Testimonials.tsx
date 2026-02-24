@@ -10,12 +10,12 @@ export default async function Testimonials() {
 
     if (response.success && response.data.length > 0) {
         const topReviews = response.data.filter((r) => r.rating >= 4);
-
         const shuffled = topReviews.sort(() => 0.5 - Math.random());
-        displayReviews = shuffled.slice(0, 3);
+        // Беремо трохи більше відгуків для гарної каруселі (наприклад, 6)
+        displayReviews = shuffled.slice(0, 6);
     }
 
-    if (displayReviews.length === 0) {
+    if (displayReviews.length < 3) {
         displayReviews = [
             {
                 id: 'fallback-1',
@@ -35,6 +35,13 @@ export default async function Testimonials() {
                 rating: 4,
                 user: { name: 'David K.', avatar: null, subscription: { plan: 'PRO' } }
             } as any,
+            // Додаємо ще кілька фолбеків для нескінченної прокрутки, якщо БД порожня
+            {
+                id: 'fallback-4',
+                text: "Ping dropped by 15ms on European servers. The Network Adapter Tuner is actually doing something under the hood.",
+                rating: 5,
+                user: { name: 'Markus', avatar: null, subscription: { plan: 'PRO' } }
+            } as any,
         ];
     }
 
@@ -42,27 +49,64 @@ export default async function Testimonials() {
     const gradients = [
         'from-[#00FF66] to-[#0f0f11]',
         'from-[#7c3aed] to-[#0f0f11]',
-        'from-[#ef4444] to-[#0f0f11]'
+        'from-[#ef4444] to-[#0f0f11]',
+        'from-[#3b82f6] to-[#0f0f11]'
     ];
 
-    return (
-        <section className="py-16 md:py-24 relative overflow-hidden">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-                <FadeIn>
-                    <h2 className="text-3xl md:text-5xl font-extrabold text-center mb-10 md:mb-16 tracking-tight">Loved by the community.</h2>
-                </FadeIn>
+    // Дублюємо масив для безперервного безкінечного скролу (Marquee ефект)
+    const marqueeReviews = [...displayReviews, ...displayReviews];
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                    {displayReviews.map((review, i) => (
-                        <FadeIn key={review.id} delay={i * 0.1}>
-                            <div className="bg-[#131316] border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col h-full hover:border-white/15 hover:bg-white/[0.03] transition-all duration-300 shadow-xl">
+    return (
+        <section className="py-20 md:py-32 relative overflow-hidden bg-[#050505]">
+
+            {/* --- АНІМОВАНИЙ ФОН (ЛІТАЮЧІ ЕЛЕМЕНТИ) --- */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full animate-[pulse_8s_ease-in-out_infinite]"></div>
+                <div className="absolute top-[60%] -right-[10%] w-[30%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full animate-[pulse_10s_ease-in-out_infinite_reverse]"></div>
+
+                {/* Декоративні частинки (чистий CSS через Tailwind arbitrary values) */}
+                <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-accent/40 rounded-full animate-[bounce_4s_infinite]"></div>
+                <div className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rounded-full animate-[ping_6s_infinite]"></div>
+                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-white/20 rounded-full animate-[bounce_3s_infinite_1s]"></div>
+            </div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 mb-12 md:mb-20">
+                <FadeIn>
+                    <div className="text-center">
+                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-4">
+                            Loved by the <span className="text-transparent bg-clip-text bg-gradient-to-r from-white to-white/40">community.</span>
+                        </h2>
+                        <p className="text-text-muted text-sm md:text-base max-w-2xl mx-auto">
+                            Join thousands of gamers who have already unlocked their system&apos;s true potential.
+                        </p>
+                    </div>
+                </FadeIn>
+            </div>
+
+            {/* --- БЕЗКІНЕЧНА КАРУСЕЛЬ (INFINITE MARQUEE) --- */}
+            <div className="relative w-full overflow-hidden flex pb-4 z-10 group">
+                {/* Градієнти по краях для плавного зникнення карток */}
+                <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none"></div>
+
+                {/* Трек, що рухається */}
+                <div className="flex w-max animate-[marquee_40s_linear_infinite] group-hover:[animation-play-state:paused]">
+                    {marqueeReviews.map((review, i) => (
+                        <div
+                            key={`${review.id}-${i}`}
+                            className="w-[300px] md:w-[400px] shrink-0 mx-3 md:mx-4"
+                        >
+                            <div className="bg-[#131316] border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col h-full hover:border-accent/30 transition-all duration-500 shadow-xl group/card relative overflow-hidden">
+
+                                {/* Декоративний відблиск при наведенні */}
+                                <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
 
                                 {/* Зірочки */}
-                                <div className="flex items-center gap-1 mb-4">
+                                <div className="flex items-center gap-1 mb-5 relative z-10">
                                     {[...Array(5)].map((_, starIdx) => (
                                         <svg
                                             key={starIdx}
-                                            className={`w-5 h-5 ${starIdx < review.rating ? 'fill-[#00FF66] text-[#00FF66]' : 'fill-white/10 text-transparent'}`}
+                                            className={`w-4 h-4 md:w-5 md:h-5 transition-all duration-300 ${starIdx < review.rating ? 'fill-accent text-accent' : 'fill-white/5 text-transparent'}`}
                                             viewBox="0 0 24 24"
                                             stroke="currentColor"
                                             strokeWidth="2"
@@ -73,39 +117,36 @@ export default async function Testimonials() {
                                 </div>
 
                                 {/* Текст */}
-                                <p className="text-sm md:text-base text-text-muted italic mb-6 md:mb-8 leading-relaxed">
+                                <p className="text-sm md:text-base text-white/80 italic mb-8 leading-relaxed flex-grow relative z-10">
                                     &quot;{review.text}&quot;
                                 </p>
 
                                 {/* Юзер */}
-                                <div className="flex items-center justify-between mt-auto border-t border-white/5 pt-4">
-                                    <div className="flex items-center gap-3">
-                                        {/* Аватарка (картинка або градієнтна буква) */}
-                                        {review.user?.avatar ? (
-                                            <img
-                                                src={review.user.avatar}
-                                                alt="Avatar"
-                                                className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border border-white/10"
-                                            />
-                                        ) : (
-                                            <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-tr ${gradients[i % 3]} flex items-center justify-center font-black text-white border border-white/5`}>
-                                                {review.user?.name?.charAt(0).toUpperCase() || 'G'}
-                                            </div>
-                                        )}
-
-                                        <div>
-                                            <h5 className="text-sm md:text-base font-bold text-white">
-                                                {review.user?.name || 'Ghost Player'}
-                                            </h5>
-                                            <span className="text-xs text-text-muted font-medium">
-                                                {review.user?.subscription?.plan === 'PRO' ? 'Pro Member' : 'Free User'}
-                                            </span>
+                                <div className="flex items-center gap-4 mt-auto pt-5 border-t border-white/5 relative z-10">
+                                    {review.user?.avatar ? (
+                                        <img
+                                            src={review.user.avatar}
+                                            alt="Avatar"
+                                            className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover border border-white/10"
+                                        />
+                                    ) : (
+                                        <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-tr ${gradients[i % gradients.length]} flex items-center justify-center font-black text-white shadow-inner`}>
+                                            {review.user?.name?.charAt(0).toUpperCase() || 'G'}
                                         </div>
+                                    )}
+
+                                    <div>
+                                        <h5 className="text-sm font-bold text-white tracking-wide">
+                                            {review.user?.name || 'Ghost Player'}
+                                        </h5>
+                                        <span className={`text-[10px] font-black uppercase tracking-widest ${review.user?.subscription?.plan === 'PRO' ? 'text-accent' : 'text-text-muted'}`}>
+                                            {review.user?.subscription?.plan === 'PRO' ? 'Pro Member' : 'Free User'}
+                                        </span>
                                     </div>
                                 </div>
 
                             </div>
-                        </FadeIn>
+                        </div>
                     ))}
                 </div>
             </div>

@@ -5,31 +5,10 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  /* Твої кастомні кольори */
+  /* Твої оригінальні назви */
   --color-dark: #050505;
   --color-charcoal: #0f0f11;
   --color-accent: #00FF66;
-  --color-accent-hover: #00d957;
-  --color-text-main: #f8fafc;
-  --color-text-muted: #94a3b8;
-  --shadow-glow: 0 4px 20px rgba(0, 255, 102, 0.15);
-  --shadow-glow-hover: 0 6px 25px rgba(0, 255, 102, 0.3);
-
-  /* Радіуси Shadcn */
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-}
-
-@theme {
-  /* Твої оригінальні назви (щоб класи text-text-main, bg-accent працювали як раніше) */
-  --color-dark: #050505;
-  --color-charcoal: #0f0f11;
-  --color-accent: #00FF66;
-  /* Твій яскраво-зелений */
   --color-accent-hover: #00d957;
   --color-text-main: #f8fafc;
   --color-text-muted: #94a3b8;
@@ -38,7 +17,7 @@
   --shadow-glow: 0 4px 20px rgba(0, 255, 102, 0.15);
   --shadow-glow-hover: 0 6px 25px rgba(0, 255, 102, 0.3);
 
-  /* Змінні Shadcn (тепер вони називаються так) */
+  /* Змінні Shadcn */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -59,8 +38,6 @@
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
 
-  /* Щоб компоненти Shadcn не затирали твій зелений колір accent, 
-     ми кажемо Shadcn використовувати іншу внутрішню назву */
   --color-accent-ui: var(--accent-ui);
   --color-accent-ui-foreground: var(--accent-foreground);
 
@@ -68,6 +45,24 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+
+  /* =========================================
+     ДОДАЄМО АНІМАЦІЇ ДЛЯ TAILWIND V4
+     ========================================= */
+
+  /* Реєструємо анімацію */
+  --animate-marquee: marquee 40s linear infinite;
+
+  /* Визначаємо ключові кадри */
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+
+    100% {
+      transform: translateX(-50%);
+    }
+  }
 }
 
 @layer base {
@@ -123,7 +118,7 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #00FF66;
+    background: #111111;
     border-radius: 10px;
     border: 4px solid #050505;
   }

@@ -1,7 +1,8 @@
+'use client';
+
 import Link from 'next/link';
-import FadeIn from './FadeIn';
+import { motion } from 'framer-motion';
 import { PAGES } from '@/components/constants/pages';
-import Slider from './Slider';
 
 export default function Features() {
     const features = [
@@ -85,62 +86,102 @@ export default function Features() {
         }
     ];
 
+    // Анімація для контейнера (запускає дочірні елементи з затримкою)
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.15 // Затримка між появою кожної картки
+            }
+        }
+    };
+
+    // Анімація для кожної окремої картки
+    const itemVariants = {
+        hidden: { opacity: 0, y: 40 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        }
+    } as const;
+
     return (
-        <section className="scroll-mt-20 py-16 md:py-24 bg-gradient-to-b from-transparent via-[#0f0f11]/80 to-transparent relative overflow-hidden" id="features" >
+        <section className="scroll-mt-20 py-16 md:py-24 bg-gradient-to-b from-transparent via-[#0f0f11]/80 to-transparent relative overflow-hidden" id="features">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
-                <FadeIn>
-                    <div className="text-center mb-12 md:mb-20 relative">
-                        <div className="inline-flex items-center px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs font-bold text-red-400 uppercase tracking-widest mb-4 md:mb-6">
-                            Proprietary Engine
-                        </div>
-                        <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 tracking-tight">75+ Deep System Tweaks.</h2>
-                        <p className="text-text-muted text-base md:text-xl max-w-3xl mx-auto leading-relaxed px-2 mb-6">
-                            We don&apos;t just clean your registry. QwikTwik deploys classified algorithms to manipulate kernel-level steering and force absolute hardware compliance.
-                        </p>
 
-                        <Link href={PAGES.DOCS} className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:text-accent-hover transition-colors group">
-                            Explore the Science Behind QwikTwik
-                            <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 stroke-current stroke-2 transform group-hover:translate-x-1 transition-transform"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                        </Link>
+                {/* Хедер секції */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7 }}
+                    className="text-center mb-12 md:mb-20 relative"
+                >
+                    <div className="inline-flex items-center px-3 py-1 bg-red-500/10 border border-red-500/20 rounded-full text-xs font-bold text-red-400 uppercase tracking-widest mb-4 md:mb-6">
+                        Proprietary Engine
                     </div>
-                </FadeIn>
+                    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold mb-4 md:mb-6 tracking-tight">75+ Deep System Tweaks.</h2>
+                    <p className="text-text-muted text-base md:text-xl max-w-3xl mx-auto leading-relaxed px-2 mb-6">
+                        We don&apos;t just clean your registry. QwikTwik deploys classified algorithms to manipulate kernel-level steering and force absolute hardware compliance.
+                    </p>
 
-                {/* ВИКОРИСТАННЯ НОВОГО СЛАЙДЕРА */}
-                <Slider desktopGridClasses="sm:grid-cols-2 lg:grid-cols-3">
+                    <Link href={PAGES.DOCS} className="inline-flex items-center gap-2 text-sm font-bold text-accent hover:text-accent-hover transition-colors group">
+                        Explore the Science Behind QwikTwik
+                        <svg viewBox="0 0 24 24" fill="none" className="w-4 h-4 stroke-current stroke-2 transform group-hover:translate-x-1 transition-transform"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </Link>
+                </motion.div>
+
+                {/* Грід з картками фіч */}
+                <motion.div
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "-50px" }}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                >
                     {features.map((f, i) => (
-                        <FadeIn key={i} delay={i * 0.1} className="h-full">
+                        <motion.div key={i} variants={itemVariants} className="h-full">
+                            {/* tabIndex={0} дозволяє картці реагувати на "focus" при тапі на мобільному. 
+                                group-hover працює на ПК, group-focus працює на мобільному.
+                            */}
                             <div
                                 tabIndex={0}
-                                className="group relative bg-[#131316] border border-white/5 rounded-2xl overflow-hidden h-[360px] md:h-[340px] hover:border-accent/40 focus:border-accent/40 transition-all duration-500 shadow-xl cursor-pointer w-full"
+                                className="group relative bg-[#131316] border border-white/5 rounded-2xl overflow-hidden h-[340px] hover:border-accent/40 focus:border-accent/40 outline-none transition-all duration-500 shadow-xl cursor-pointer w-full"
                             >
+                                {/* Лицьова сторона картки */}
                                 <div className="absolute inset-0 p-6 md:p-8 flex flex-col transition-transform duration-500 group-hover:-translate-y-full group-focus:-translate-y-full">
                                     <div className="flex justify-between items-start mb-auto">
-                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
-                                            <svg viewBox="0 0 24 24" className="w-5 h-5 md:w-6 md:h-6 stroke-white stroke-2 fill-none">{f.icon}</svg>
+                                        <div className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0">
+                                            <svg viewBox="0 0 24 24" className="w-6 h-6 stroke-white stroke-2 fill-none">{f.icon}</svg>
                                         </div>
                                         <div className="text-right">
                                             <div className="text-2xl md:text-3xl font-black text-white">{f.stat}</div>
                                             <div className="text-[10px] md:text-xs font-bold text-text-muted uppercase tracking-wider">{f.statLabel}</div>
                                         </div>
                                     </div>
-                                    <div className="relative">
-                                        <h4 className="text-lg md:text-xl font-bold mb-2 md:mb-3 text-white">{f.title}</h4>
-                                        <p className="text-sm text-text-muted leading-relaxed mb-6 md:mb-0">{f.desc}</p>
 
-                                        <div className="absolute -bottom-2 right-0 md:hidden flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md">
+                                    <div className="relative mt-4">
+                                        <h4 className="text-xl font-bold mb-3 text-white">{f.title}</h4>
+                                        <p className="text-sm text-text-muted leading-relaxed mb-8 lg:mb-0">{f.desc}</p>
+
+                                        {/* Підказка ТІЛЬКИ для мобільних пристроїв (на ПК вона прихована завдяки lg:hidden) */}
+                                        <div className="absolute -bottom-2 right-0 lg:hidden flex items-center gap-1.5 bg-white/5 px-2.5 py-1 rounded-md">
                                             <span className="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
                                             <span className="text-[10px] text-accent font-bold uppercase tracking-wider">Tap to Decrypt</span>
                                         </div>
                                     </div>
                                 </div>
 
+                                {/* Зворотня сторона картки (Термінал) */}
                                 <div className="absolute inset-0 bg-[#0a0a0c] p-6 md:p-8 flex flex-col justify-center translate-y-full group-hover:translate-y-0 group-focus:translate-y-0 transition-transform duration-500">
                                     <div className="absolute top-0 left-0 w-full h-1 bg-accent shadow-[0_0_20px_rgba(0,255,102,0.8)]"></div>
                                     <h5 className="text-accent text-[10px] md:text-xs font-mono font-bold uppercase tracking-widest mb-4 flex items-center gap-2">
                                         <span className="w-2 h-2 bg-accent rounded-full animate-pulse"></span>
                                         Engine Telemetry
                                     </h5>
-                                    <ul className="space-y-2 md:space-y-3 font-mono text-xs md:text-[13px] text-white/70">
+                                    <ul className="space-y-3 font-mono text-xs md:text-[13px] text-white/70">
                                         {f.terminal.map((line, j) => {
                                             const isStatus = j === f.terminal.length - 1;
                                             return (
@@ -153,9 +194,9 @@ export default function Features() {
                                     </ul>
                                 </div>
                             </div>
-                        </FadeIn>
+                        </motion.div>
                     ))}
-                </Slider>
+                </motion.div>
             </div>
         </section>
     );
