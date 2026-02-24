@@ -94,7 +94,7 @@ export default function Sidebar({ user }: { user: UserProfileResponse }) {
             `}>
 
                 <div className="flex items-center justify-between mb-8 shrink-0">
-                    <Link href="/dashboard" className="text-xl font-black flex items-center gap-2 text-accent">
+                    <Link href="/" className="text-xl font-black flex items-center gap-2 text-accent">
                         <svg viewBox="0 0 24 24" className="fill-current w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                         <span>QwikTwik</span>
                     </Link>
