@@ -71,7 +71,7 @@ export default function Sidebar({ user }: { user: UserProfileResponse }) {
     return (
         <>
             <div className="md:hidden flex items-center justify-between p-5 bg-[#0a0a0c] border-b border-white/5 sticky top-0 z-40">
-                <Link href="/dashboard" className="text-xl font-black flex items-center gap-2 text-accent">
+                <Link href="/" className="text-xl font-black flex items-center gap-2 text-accent">
                     <svg viewBox="0 0 24 24" className="fill-current w-6 h-6"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
                     QwikTwik
                 </Link>
@@ -152,12 +152,6 @@ export default function Sidebar({ user }: { user: UserProfileResponse }) {
                 </nav>
 
                 <div className="shrink-0 mt-auto pt-4 flex flex-col gap-2 border-t border-white/5 bg-[#0a0a0c]">
-                    <Link href={"/"} className="flex items-center gap-3 px-4 py-3 text-text-muted font-bold text-sm hover:bg-neutral-500/10 rounded-xl w-full transition-all cursor-pointer">
-                        <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                        </svg>
-                        Back to site
-                    </Link>
                     <button onClick={handleLogout} className="flex items-center gap-3 px-4 py-3 text-red-400 font-bold text-sm hover:bg-red-500/10 rounded-xl w-full transition-all cursor-pointer">
                         <svg className="w-5 h-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
