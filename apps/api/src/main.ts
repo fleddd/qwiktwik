@@ -6,7 +6,9 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    rawBody: true,
+  });
 
   const configService = app.get(ConfigService);
   const frontendUrl = configService.get<string>('FRONTEND_URL') || 'http://localhost:3000';
