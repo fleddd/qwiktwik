@@ -93,3 +93,49 @@ export interface ReviewResponse {
         } | null;
     };
 }
+
+
+export interface AdminUserResponse {
+    id: string;
+    email: string;
+    name: string | null;
+    role: Role;
+    referralCode: string | null;
+    affiliateBalance: number;
+    createdAt: string;
+    subscription: {
+        plan: Plan;
+        status: SubStatus;
+    } | null;
+    _count?: {
+        withdrawalRequests: number;
+    };
+}
+
+export interface ReferralUser {
+    id: string;
+    name: string | null;
+    createdAt: string;
+    subscription: {
+        plan: Plan;
+        status: SubStatus;
+    } | null;
+    revenueGenerated: number;
+}
+
+export interface WithdrawalResponse {
+    id: string;
+    amount: number;
+    walletAddress: string;
+    status: 'PENDING' | 'COMPLETED' | 'REJECTED';
+    createdAt: string;
+}
+
+export interface AffiliateStatsResponse {
+    referralCode: string | null;
+    balance: number;
+    payoutWallet: string | null;
+    totalReferrals: number;
+    referrals: ReferralUser[];
+    recentWithdrawals: WithdrawalResponse[];
+}

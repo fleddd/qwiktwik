@@ -9,6 +9,13 @@ datasource db {
 enum Role {
   USER
   ADMIN
+  AFFILIATE
+}
+
+enum WithdrawalStatus {
+  PENDING
+  COMPLETED
+  REJECTED
 }
 
 enum Plan {
@@ -44,6 +51,15 @@ model User {
   avatar       String?
   role         Role    @default(USER)
 
+  referralCode String? @unique
+  referredById String? // Хто запросив цього юзера
+  referredBy   User?   @relation("Referrals", fields: [referredById], references: [id])
+  referrals    User[]  @relation("Referrals") // Список запрошених юзерів
+
+  affiliateBalance   Float               @default(0.0)
+  payoutWallet       String? // Наприклад, USDT TRC20 адреса
+  withdrawalRequests WithdrawalRequest[]
+
   subscription  Subscription?
   transactions  Transaction[]
   oauthAccounts OAuthAccount[]
@@ -54,6 +70,20 @@ model User {
   passwordChangedAt    DateTime?
 
   reviews Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WithdrawalRequest {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  amount        Float // Скільки хоче вивести
+  walletAddress String // Куди виводити (фіксуємо на момент запиту)
+  status        WithdrawalStatus @default(PENDING)
+  notes         String? // Для адміна (напр. "TxID: 0x123...")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

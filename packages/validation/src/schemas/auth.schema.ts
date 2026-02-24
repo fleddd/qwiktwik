@@ -4,6 +4,7 @@ export const RegisterSchema = z.object({
     email: z.string().email('Invalid email format'),
     password: z.string().min(6, 'Password must contain at least 6 characters'),
     name: z.string().min(1, 'Name is required'),
+    refCode: z.string().optional()
 });
 
 export type RegisterInput = z.infer<typeof RegisterSchema>;

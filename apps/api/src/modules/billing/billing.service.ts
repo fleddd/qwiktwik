@@ -12,19 +12,35 @@ export class BillingService {
         private dodoPayments: DodoPaymentsService,
     ) { }
 
+    private async _distributeCommission(tx: any, payingUserId: string, paymentAmount: number) {
+        if (paymentAmount <= 0) return;
+
+        const user = await tx.user.findUnique({
+            where: { id: payingUserId },
+            select: { referredById: true }
+        });
+
+        if (user?.referredById) {
+            const commission = paymentAmount * 0.10;
+
+            await tx.user.update({
+                where: { id: user.referredById },
+                data: { affiliateBalance: { increment: commission } }
+            });
+
+        }
+    }
+
     async createCheckout(userId: string, email: string, interval: BillingInterval, provider: 'nowpayments' | 'dodopayments' = 'dodopayments') {
-        // Для крипти зберігаємо ціни у коді
         const cryptoPrices = {
             [BillingInterval.MONTHLY]: 9.99,
             [BillingInterval.YEARLY]: 59.88,
             [BillingInterval.LIFETIME]: 129.00,
         };
 
-        // 1. Створюємо транзакцію в БД
         const transaction = await this.prisma.transaction.create({
             data: {
                 userId,
-                // Для Dodo ми запишемо реальну суму вже у вебхуку, тому тут може бути 0
                 amount: provider === 'nowpayments' ? cryptoPrices[interval] : 0,
                 currency: 'USD',
                 provider: provider,
@@ -33,7 +49,6 @@ export class BillingService {
             },
         });
 
-        // 2. Викликаємо відповідний сервіс
         if (provider === 'nowpayments') {
             return await this.nowPayments.createInvoice(transaction.id, cryptoPrices[interval], interval);
         } else {
@@ -47,6 +62,7 @@ export class BillingService {
             orderBy: { createdAt: 'desc' },
         });
     }
+
     async processWebhook(body: any) {
         const { order_id, payment_status, payment_id } = body;
 
@@ -63,13 +79,11 @@ export class BillingService {
                 },
             });
 
-            // 1. Отримуємо поточну підписку юзера
             const existingSub = await tx.subscription.findUnique({
                 where: { userId: transaction.userId }
             });
 
             const now = new Date();
-            // 2. Визначаємо базову дату для розрахунку
             let baseDate = now;
 
             if (
@@ -81,7 +95,6 @@ export class BillingService {
                 baseDate = existingSub.currentPeriodEnd;
             }
 
-            // 3. Додаємо час
             let endDate = new Date(baseDate);
 
             if (transaction.intervalPaid === BillingInterval.MONTHLY) {
@@ -92,7 +105,6 @@ export class BillingService {
                 endDate = new Date('2099-12-31');
             }
 
-            // 4. Оновлюємо базу
             await tx.subscription.upsert({
                 where: { userId: transaction.userId },
                 create: {
@@ -107,27 +119,26 @@ export class BillingService {
                 update: {
                     plan: Plan.PRO,
                     status: SubStatus.ACTIVE,
-                    interval: transaction.intervalPaid, // Оновлюємо інтервал, якщо він перейшов на інший
+                    interval: transaction.intervalPaid,
                     currentPeriodEnd: endDate,
                 },
             });
 
-            console.log(`User ${transaction.userId} upgraded to PRO until ${endDate}`);
+            // Нараховуємо 30% стримеру
+            await this._distributeCommission(tx, transaction.userId, transaction.amount);
+
             return { success: true };
         });
     }
+
     async processDodoWebhook(body: any) {
         const eventName = body.event || body.type;
-
         const validEvents = ['payment.succeeded'];
 
         if (!validEvents.includes(eventName)) {
-            console.log(`[Dodo] Event ignored: ${eventName}`);
-            // Повертаємо 200, щоб Dodo вважав вебхук доставленим
             return { received: true };
         }
 
-        // 2. Безпечно дістаємо transactionId (Dodo може покласти його в різні місця залежно від івенту)
         const transactionId =
             body.data?.metadata?.transaction_id ||
             body.data?.subscription?.metadata?.transaction_id ||
@@ -136,8 +147,7 @@ export class BillingService {
         const providerTxId = String(body.data?.payment_id || body.data?.subscription_id || body.data?.id);
 
         if (!transactionId) {
-            console.error('[Dodo Webhook] Missing transaction_id in metadata. Payload:', JSON.stringify(body));
-            // Якщо це тестовий/лівий вебхук без нашої метадати - просто ігноруємо, щоб не блокувати чергу Dodo
+            console.error('[Dodo Webhook] Missing transaction_id in metadata');
             return { received: true };
         }
 
@@ -150,27 +160,25 @@ export class BillingService {
                     return { received: true };
                 }
 
-                // Якщо транзакція вже оброблена - скіпаємо
                 if (transaction.status === TxStatus.COMPLETED) {
-                    console.log(`[Dodo] Transaction ${transactionId} already completed.`);
                     return { received: true };
                 }
 
-                // Знаходимо реальну суму (Dodo віддає її в центах)
+                // ШУКАЄМО СУМУ (Dodo може повертати її в центах)
                 const totalAmount = body.data?.total_amount || body.data?.payment?.total_amount;
                 const finalAmount = totalAmount ? totalAmount / 100 : transaction.amount;
 
-                // Оновлюємо транзакцію
+
                 await tx.transaction.update({
                     where: { id: transactionId },
                     data: {
                         status: TxStatus.COMPLETED,
                         providerTxId: providerTxId,
-                        amount: finalAmount
+                        amount: finalAmount // Оновлюємо суму в базі
                     },
                 });
 
-                // Нараховуємо користувачу PRO статус
+                // ... Твоя логіка endDate ...
                 const existingSub = await tx.subscription.findUnique({
                     where: { userId: transaction.userId }
                 });
@@ -191,8 +199,8 @@ export class BillingService {
                     where: { userId: transaction.userId },
                     create: {
                         userId: transaction.userId,
-                        plan: 'PRO', // Або Plan.PRO, якщо використовуєш Enum
-                        status: SubStatus.ACTIVE, // Або SubStatus.ACTIVE
+                        plan: 'PRO',
+                        status: SubStatus.ACTIVE,
                         interval: transaction.intervalPaid,
                         paymentProvider: 'dodopayments',
                         currentPeriodStart: now,
@@ -206,12 +214,13 @@ export class BillingService {
                     },
                 });
 
-                console.log(`[Dodo] User ${transaction.userId} successfully upgraded to PRO!`);
+                // ВИКЛИКАЄМО НАРАХУВАННЯ
+                await this._distributeCommission(tx, transaction.userId, finalAmount);
+
                 return { received: true };
             });
         } catch (error) {
             console.error('[Dodo Webhook] DB Transaction failed:', error);
-            // Лише тут кидаємо помилку, щоб Dodo спробував ще раз, якщо впала база
             throw error;
         }
     }

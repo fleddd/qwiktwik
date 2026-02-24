@@ -100,7 +100,6 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
         reader.onloadend = async () => {
             setAvatarPreview(reader.result as string);
 
-            console.log('File to upload:', file instanceof File, file);
             const res = await UsersService.uploadAvatar(file);
 
             if (res.success && res.data?.avatarUrl) {

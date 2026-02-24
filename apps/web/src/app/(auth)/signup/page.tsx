@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import FadeIn from '@/components/FadeIn';
-import { PAGES } from "@/constants/pages";
+import { PAGES } from "@/components/constants/pages";
 import { AuthService } from '@/services/auth.service';
 import type { RegisterInput } from '@repo/validation';
 import { FaDiscord, FaGoogle } from 'react-icons/fa';
@@ -23,10 +23,15 @@ export default function SignUp() {
         setIsLoading(true);
 
         const formData = new FormData(e.currentTarget);
-        const data = Object.fromEntries(formData.entries()) as unknown as RegisterInput;
+        const data = Object.fromEntries(formData.entries()) as any;
+
+        const savedRef = localStorage.getItem('referralCode');
+        if (savedRef) {
+            data.refCode = savedRef;
+        }
 
         try {
-            const response = await AuthService.register(data);
+            const response = await AuthService.register(data as RegisterInput);
 
             if (!response.success) {
                 if (response.error.status === 400 && response.error.details) {
@@ -38,11 +43,15 @@ export default function SignUp() {
             }
 
             Cookies.set('accessToken', response.data.accessToken, { expires: 7, path: '/' });
+
+            // Після успішної реєстрації можна видалити код
+            localStorage.removeItem('referralCode');
+
             router.push('/dashboard');
             router.refresh();
 
         } catch (err: any) {
-            setGlobalError('Couldn\'t create an account. Please cheack out your connection.');
+            setGlobalError('Couldn\'t create an account. Please check out your connection.');
         } finally {
             setIsLoading(false);
         }
@@ -90,8 +99,7 @@ export default function SignUp() {
                                     type="text"
                                     required
                                     placeholder="GhostPlayer"
-                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm ${fieldErrors.name ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'
-                                        }`}
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm ${fieldErrors.name ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'}`}
                                 />
                                 {fieldErrors.name && (
                                     <span className="text-red-400 text-[10px] md:text-xs font-mono">{fieldErrors.name[0]}</span>
@@ -105,8 +113,7 @@ export default function SignUp() {
                                     type="email"
                                     required
                                     placeholder="ghost@example.com"
-                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm ${fieldErrors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'
-                                        }`}
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm ${fieldErrors.email ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'}`}
                                 />
                                 {fieldErrors.email && (
                                     <span className="text-red-400 text-[10px] md:text-xs font-mono">{fieldErrors.email[0]}</span>
@@ -120,8 +127,7 @@ export default function SignUp() {
                                     type="password"
                                     required
                                     placeholder="••••••••"
-                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm tracking-widest ${fieldErrors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'
-                                        }`}
+                                    className={`w-full bg-white/5 border rounded-xl px-4 py-2.5 text-white placeholder:text-white/20 focus:outline-none focus:bg-white/10 transition-all font-mono text-sm tracking-widest ${fieldErrors.password ? 'border-red-500/50 focus:border-red-500' : 'border-white/10 focus:border-accent/50'}`}
                                 />
                                 {fieldErrors.password && (
                                     <span className="text-red-400 text-[10px] md:text-xs font-mono">{fieldErrors.password[0]}</span>

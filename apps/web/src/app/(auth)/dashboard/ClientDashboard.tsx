@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 import { UserProfileResponse } from '@repo/types';
 
 interface ClientDashboardProps {

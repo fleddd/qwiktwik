@@ -5,7 +5,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 import { motion, AnimatePresence } from 'framer-motion';
 import React from 'react';
 

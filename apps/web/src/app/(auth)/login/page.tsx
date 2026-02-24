@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Cookies from 'js-cookie';
 import FadeIn from '@/components/FadeIn';
-import { PAGES } from "@/constants/pages";
+import { PAGES } from "@/components/constants/pages";
 import { AuthService } from '@/services/auth.service';
 import type { LoginInput } from '@repo/validation';
 import { FaDiscord, FaGoogle } from 'react-icons/fa';

@@ -1,5 +1,5 @@
 import { fetcher } from '@/lib/fetcher';
-import type { UserProfileResponse } from '@repo/types';
+import type { AdminUserResponse, UserProfileResponse } from '@repo/types';
 
 export const UsersService = {
     updateProfile: async (data: { name: string }) => {
@@ -37,8 +37,7 @@ export const UsersService = {
 
 export const AdminService = {
     getAllUsers: async () => {
-        // Тут ми очікуємо будь-який масив (можеш типізувати пізніше)
-        return fetcher<any[]>('/users', {
+        return fetcher<AdminUserResponse[]>('/users', {
             method: 'GET',
         });
     },
@@ -48,5 +47,18 @@ export const AdminService = {
             method: 'PATCH',
             body: JSON.stringify(data),
         });
+    },
+    getAffiliateDetails: async (userId: string) => {
+        return fetcher<any>(`/users/${userId}/affiliate-details`, {
+            method: 'GET',
+        });
+    },
+
+    updateWithdrawalStatus: async (requestId: string, status: 'COMPLETED' | 'REJECTED') => {
+        return fetcher(`/users/withdrawals/${requestId}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status }),
+        });
     }
+
 };

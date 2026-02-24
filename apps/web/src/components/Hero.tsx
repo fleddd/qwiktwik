@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import FadeIn from './FadeIn';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 
 export default function Hero() {
     return (

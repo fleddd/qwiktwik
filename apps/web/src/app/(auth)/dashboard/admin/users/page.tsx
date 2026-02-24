@@ -9,15 +9,15 @@ import {
     DialogFooter,
 } from "@/components/ui/dialog";
 import { AdminService } from '@/services/user.service';
+import type { AdminUserResponse } from '@repo/types';
 
 export default function AdminUsersPage() {
-    const [users, setUsers] = useState<any[]>([]);
+    const [users, setUsers] = useState<AdminUserResponse[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
 
-    // State для модалки
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [editingUser, setEditingUser] = useState<any>(null);
+    const [editingUser, setEditingUser] = useState<AdminUserResponse | null>(null);
     const [isUpdating, setIsUpdating] = useState(false);
 
     // Дані форми в модалці
@@ -43,8 +43,8 @@ export default function AdminUsersPage() {
         (u.name && u.name.toLowerCase().includes(searchQuery.toLowerCase()))
     );
 
-    // 3. Відкриття модалки
-    const handleEditClick = (user: any) => {
+    // 3. Відкриття модалки (ЗАМІНЕНО any на AdminUserResponse)
+    const handleEditClick = (user: AdminUserResponse) => {
         setEditingUser(user);
         setEditForm({
             role: user.role,
@@ -66,8 +66,11 @@ export default function AdminUsersPage() {
                 if (u.id === editingUser.id) {
                     return {
                         ...u,
-                        role: editForm.role,
-                        subscription: { ...u.subscription, plan: editForm.plan }
+                        role: editForm.role as AdminUserResponse['role'],
+                        subscription: {
+                            ...(u.subscription || { status: 'INACTIVE' as const }),
+                            plan: editForm.plan as any
+                        }
                     };
                 }
                 return u;
@@ -134,7 +137,11 @@ export default function AdminUsersPage() {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4">
-                                                <span className={`text-xs font-bold ${user.role === 'ADMIN' ? 'text-red-400' : 'text-text-muted'}`}>
+                                                {/* Додано колір для AFFILIATE */}
+                                                <span className={`text-xs font-bold ${user.role === 'ADMIN' ? 'text-red-400' :
+                                                        user.role === 'AFFILIATE' ? 'text-purple-400' :
+                                                            'text-text-muted'
+                                                    }`}>
                                                     {user.role}
                                                 </span>
                                             </td>
@@ -178,6 +185,8 @@ export default function AdminUsersPage() {
                                 className="bg-[#050505] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00FF66]/50"
                             >
                                 <option value="USER">User</option>
+                                {/* ДОДАНО ОПЦІЮ AFFILIATE */}
+                                <option value="AFFILIATE">Partner / Affiliate</option>
                                 <option value="ADMIN">Admin</option>
                             </select>
                         </div>
@@ -199,14 +208,14 @@ export default function AdminUsersPage() {
                     <DialogFooter className="sm:justify-end gap-2 mt-4">
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="px-6 py-2.5 rounded-xl text-sm font-bold text-white/70 hover:bg-white/5 transition-colors"
+                            className="px-6 py-2.5 rounded-xl text-sm font-bold text-white/70 hover:bg-white/5 transition-colors cursor-pointer"
                         >
                             Cancel
                         </button>
                         <button
                             onClick={handleSave}
                             disabled={isUpdating}
-                            className="px-6 py-2.5 bg-[#00FF66] text-black rounded-xl text-sm font-black hover:bg-[#00d957] transition-colors disabled:opacity-50 flex items-center gap-2"
+                            className="px-6 py-2.5 bg-[#00FF66] text-black rounded-xl text-sm font-black hover:bg-[#00d957] transition-colors disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                         >
                             {isUpdating ? 'Saving...' : 'Save Changes'}
                         </button>

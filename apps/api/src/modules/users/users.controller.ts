@@ -44,21 +44,58 @@ export class UsersController {
     return { success: true, message: 'Password updated successfully' };
   }
 
-  // НОВЕ: Роут для відключення OAuth
   @Delete('me/connections/:provider')
   async disconnectOAuth(@Request() req, @Param('provider') provider: string) {
     await this.usersService.disconnectOAuth(req.user.id, provider);
     return { success: true, message: `${provider} disconnected successfully` };
   }
 
+  @Get(':id/affiliate-details')
+  @Roles('ADMIN')
+  async getAffiliateDetails(@Param('id') id: string) {
+    const data = await this.usersService.getAffiliateDetailsForAdmin(id);
+    return { success: true, data };
+  }
+
+  @Patch('withdrawals/:id')
+  @Roles('ADMIN')
+  async updateWithdrawalStatus(
+    @Param('id') id: string,
+    @Body('status') status: 'COMPLETED' | 'REJECTED'
+  ) {
+    await this.usersService.updateWithdrawalStatus(id, status);
+    return { success: true, message: `Status updated to ${status}` };
+  }
+
+  @Get('affiliate/stats')
+  @UseGuards(RolesGuard)
+  @Roles('AFFILIATE', 'ADMIN')
+  async getAffiliateStats(@Request() req) {
+    const stats = await this.usersService.getAffiliateStats(req.user.id);
+    return { success: true, data: stats };
+  }
+
+  @Post('affiliate/generate-code')
+  @UseGuards(RolesGuard)
+  @Roles('AFFILIATE', 'ADMIN')
+  async generateCode(@Request() req, @Body('code') code: string) {
+    if (!code || code.length < 3) throw new BadRequestException('Code must be at least 3 characters long');
+
+    await this.usersService.setReferralCode(req.user.id, code);
+    return { success: true, message: 'Referral code updated successfully' };
+  }
+
+
   @Get()
+  @UseGuards(RolesGuard)
   @Roles('ADMIN')
   async getAllUsers() {
     return this.usersService.findAll();
   }
 
   @Patch(':id/admin')
-  @Roles('ADMIN') 
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   async updateUserAsAdmin(
     @Param('id') id: string,
     @Body() body: { role?: any; plan?: any }
@@ -83,19 +120,15 @@ export class UsersController {
     }
 
     try {
-      // 1. Завантажуємо в Cloudinary
       const result = await this.cloudinaryService.uploadFile(file);
       const avatarUrl = result.secure_url;
 
-      // 2. ВАЖЛИВО: Зберігаємо посилання в Postgres через твій сервіс
       await this.usersService.update(req.user.id, { avatar: avatarUrl });
 
-      // 3. Повертаємо результат (TransformInterceptor обгорне це в success: true)
       return { avatarUrl };
     } catch (e) {
       console.error('Upload error:', e);
       throw new BadRequestException('Could not upload image to cloud service.');
     }
-
   }
 }

@@ -16,13 +16,25 @@ export class AuthService {
 
   // --- LOCAL AUTHENTICATION ---
 
-  async register(dto: RegisterInput) {
+  async register(dto: RegisterInput & { refCode?: string }) {
     const existingUser = await this.prisma.user.findUnique({
       where: { email: dto.email },
     });
 
     if (existingUser) {
       throw new ConflictException('User with this email already exists');
+    }
+
+    let referredById: string | null = null;
+
+    // Перевіряємо реферальний код, якщо він був переданий з фронтенду
+    if (dto.refCode) {
+      const referrer = await this.prisma.user.findUnique({
+        where: { referralCode: dto.refCode.trim().toUpperCase() },
+      });
+      if (referrer) {
+        referredById = referrer.id;
+      }
     }
 
     // Hashing password with Argon2
@@ -33,7 +45,7 @@ export class AuthService {
         email: dto.email,
         passwordHash: hashedPassword,
         name: dto.name,
-        // При реєстрації пароль ще не змінювався, залишаємо null
+        referredById: referredById, // Прив'язуємо до стримера
       },
     });
 

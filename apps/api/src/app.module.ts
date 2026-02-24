@@ -10,6 +10,7 @@ import { ReleasesModule } from './modules/releases/releases.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ReviewsModule } from './modules/reviews/reviews.module';
 import { AdminStatsModule } from './modules/stats/admin-stats.module';
+import { AffiliateModule } from './modules/affiliate/affiliate.module';
 
 
 @Module({
@@ -27,7 +28,8 @@ import { AdminStatsModule } from './modules/stats/admin-stats.module';
     DevicesModule,
     ReleasesModule,
     ReviewsModule,
-    AdminStatsModule
+    AdminStatsModule,
+    AffiliateModule
   ],
 })
 export class AppModule { }

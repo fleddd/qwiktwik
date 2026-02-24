@@ -12,7 +12,6 @@ interface BillingClientProps {
 }
 
 type Step = 'plan' | 'provider' | 'checkout';
-// Змінюємо типи провайдерів для відповідності бекенду
 type Provider = 'nowpayments' | 'dodopayments';
 
 export default function BillingClient({ currentPlan, expiryDate }: BillingClientProps) {
@@ -67,7 +66,6 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
         setStep('checkout');
     };
 
-    // Запускаємо оплату автоматично після переходу на крок checkout
     useEffect(() => {
         if (step === 'checkout' && selectedProvider && selectedPlan) {
             startPayment();
@@ -78,13 +76,12 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
         setIsLoading(true);
         setError(null);
 
-        // Передаємо обраного провайдера на бекенд
         const res = await BillingService.createCheckout(selectedPlan.id, selectedProvider!);
 
         if (res.success && res.data?.url) {
-            window.location.href = res.data.url; // Редірект на сторінку оплати
+            window.location.href = res.data.url;
         } else {
-            // @ts-ignore (залежить від того, як ти типізував fetcher)
+            // @ts-ignore
             setError(!res.success ? res.error?.message || 'Error' : 'Failed to initialize payment gateway.');
             setIsLoading(false);
         }
@@ -92,8 +89,11 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
 
     const showCurrentSub = currentPlan !== 'FREE' && !isExtending;
 
-    const formattedExpiryDate = expiryDate
-        ? new Date(expiryDate).toLocaleDateString('en-US', {
+    const dateObj = expiryDate ? new Date(expiryDate) : null;
+    const isLifetime = dateObj ? dateObj.getFullYear() >= 2099 : false;
+
+    const formattedExpiryDate = dateObj
+        ? dateObj.toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
             day: 'numeric'
@@ -161,7 +161,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                         exit={{ opacity: 0, y: -10 }}
                         className="max-w-2xl"
                     >
-                        {/* CURRENT SUB UI (Без змін) */}
+                        {/* CURRENT SUB UI */}
                         <div className="bg-[#131316] border border-accent/20 p-8 rounded-[2.5rem] relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <span className="text-8xl font-black uppercase tracking-tighter">{currentPlan}</span>
@@ -171,23 +171,31 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                                 <div className="inline-block bg-accent/10 text-accent text-[10px] font-black px-3 py-1 rounded-full uppercase mb-4">
                                     Currently Active
                                 </div>
-                                <h2 className="text-4xl font-black text-white mb-2 uppercase italic">{currentPlan} PRO</h2>
+                                <h2 className="text-4xl font-black text-white mb-2 uppercase italic">{currentPlan} PLAN</h2>
                                 <p className="text-text-muted text-sm mb-8">
                                     Your system is currently optimized with the full power of QwikTwik.
-                                    {formattedExpiryDate && (
+
+                                    {isLifetime ? (
+                                        <span className="block mt-2 font-bold text-accent">
+                                            Lifetime Access ♾️
+                                        </span>
+                                    ) : formattedExpiryDate ? (
                                         <span className="block mt-2 font-bold text-white/90">
                                             Expires on: {formattedExpiryDate}
                                         </span>
-                                    )}
+                                    ) : null}
                                 </p>
 
                                 <div className="flex flex-wrap gap-4">
-                                    <button
-                                        onClick={() => setIsExtending(true)}
-                                        className="px-8 py-4 bg-white text-black font-black rounded-xl hover:bg-accent transition-all cursor-pointer text-xs uppercase"
-                                    >
-                                        Extend or Change Plan
-                                    </button>
+                                    {/* Приховуємо кнопку "Extend", якщо це Lifetime */}
+                                    {!isLifetime && (
+                                        <button
+                                            onClick={() => setIsExtending(true)}
+                                            className="px-8 py-4 bg-white text-black font-black rounded-xl hover:bg-accent transition-all cursor-pointer text-xs uppercase"
+                                        >
+                                            Extend or Change Plan
+                                        </button>
+                                    )}
                                     <button
                                         onClick={() => router.push('/dashboard/transactions')}
                                         className="px-8 py-4 bg-white/5 text-white border border-white/5 font-black rounded-xl hover:bg-white/10 transition-all cursor-pointer text-xs uppercase"
@@ -200,7 +208,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                     </motion.div>
                 ) : (
                     <>
-                        {/* STEP 1: PLAN SELECTION (Без змін) */}
+                        {/* STEP 1: PLAN SELECTION */}
                         {step === 'plan' && (
                             <motion.div
                                 key="step-plan"

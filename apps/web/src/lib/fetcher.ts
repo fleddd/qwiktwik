@@ -17,10 +17,6 @@ export const fetcher = async <T>(endpoint: string, options: FetchOptions = {}): 
     } else {
         // Клієнтський компонент
         token = Cookies.get('accessToken');
-
-        // ДЕБАГ: Перевір у консолі браузера, чи читається токен взагалі
-        // Якщо тут undefined, значить кука HttpOnly
-        console.log('Client-side token:', token ? 'Found' : 'Missing!');
     }
 
     const isFormData = options.body instanceof FormData;

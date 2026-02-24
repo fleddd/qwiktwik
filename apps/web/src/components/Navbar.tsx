@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
 

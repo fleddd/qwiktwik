@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 
 export default function Footer() {
     const footerLinks = [

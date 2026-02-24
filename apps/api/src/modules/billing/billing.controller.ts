@@ -34,9 +34,6 @@ export class BillingController {
   @Post('webhook-dodopayments')
   @HttpCode(HttpStatus.OK)
   async webhookDodoPayments(@Body() body: any) {
-    console.log('=== DODO WEBHOOK RECEIVED ===');
-    console.log(JSON.stringify(body, null, 2));
-
     return this.billingService.processDodoWebhook(body);
   }
 

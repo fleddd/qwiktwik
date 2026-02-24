@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { PAGES } from '@/constants/pages';
+import { PAGES } from '@/components/constants/pages';
 import type { ReviewResponse } from '@repo/types';
 import { ReviewService } from '@/services/reviews.service';
 
