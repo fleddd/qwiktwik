@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Oxanium } from "next/font/google";
 import "../styles/globals.css";
+import { Toaster } from "@/components/ui/sonner";
 const oxanium = Oxanium({
     subsets: ["latin"],
     weight: ["400", "700", "800"], // Беремо жирні накреслення
@@ -32,6 +33,7 @@ export default function RootLayout({
     return (
         <html lang="en" className="scroll-smooth">
             <body className={oxanium.className}>
+                <Toaster theme="dark" position="bottom-right" richColors />
                 {children}
             </body>
         </html>

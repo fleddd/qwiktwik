@@ -3,6 +3,7 @@ import { AdminStatsService } from '@/services/stats.service'; // Перевір 
 export default async function AdminOverviewPage() {
     const response = await AdminStatsService.getOverview();
 
+
     // Якщо сталася помилка, підставляємо нулі
     const stats = response.success && response.data ? response.data : {
         totalUsers: 0,

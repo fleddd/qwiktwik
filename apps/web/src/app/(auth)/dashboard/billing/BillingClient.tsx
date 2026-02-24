@@ -1,27 +1,27 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BillingService } from '@/services/billing.service';
-
-// ВИДАЛЕНО: import { Plan } from '@repo/database';
+import { toast } from 'sonner';
 
 interface BillingClientProps {
-    // Використовуємо звичайні типи замість Enum
     currentPlan: 'PRO' | 'FREE' | string;
     expiryDate: Date | string | null;
 }
 
 type Step = 'plan' | 'provider' | 'checkout';
+// Змінюємо типи провайдерів для відповідності бекенду
+type Provider = 'nowpayments' | 'dodopayments';
 
 export default function BillingClient({ currentPlan, expiryDate }: BillingClientProps) {
     const router = useRouter();
-
+    const searchParams = useSearchParams();
     const [step, setStep] = useState<Step>('plan');
     const [isExtending, setIsExtending] = useState(false);
     const [selectedPlan, setSelectedPlan] = useState<any>(null);
-    const [selectedProvider, setSelectedProvider] = useState<'crypto' | 'paypal' | null>(null);
+    const [selectedProvider, setSelectedProvider] = useState<Provider | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -62,17 +62,14 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
         setStep('provider');
     };
 
-    const handleSelectProvider = (provider: 'crypto' | 'paypal') => {
-        if (provider === 'paypal') {
-            alert('PayPal integration is currently under development. Please use Cryptocurrency.');
-            return;
-        }
+    const handleSelectProvider = (provider: Provider) => {
         setSelectedProvider(provider);
         setStep('checkout');
     };
 
+    // Запускаємо оплату автоматично після переходу на крок checkout
     useEffect(() => {
-        if (step === 'checkout' && selectedProvider === 'crypto' && selectedPlan) {
+        if (step === 'checkout' && selectedProvider && selectedPlan) {
             startPayment();
         }
     }, [step]);
@@ -81,19 +78,20 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
         setIsLoading(true);
         setError(null);
 
-        const res = await BillingService.createCheckout(selectedPlan.id);
+        // Передаємо обраного провайдера на бекенд
+        const res = await BillingService.createCheckout(selectedPlan.id, selectedProvider!);
 
         if (res.success && res.data?.url) {
-            window.location.href = res.data.url;
+            window.location.href = res.data.url; // Редірект на сторінку оплати
         } else {
-            setError(!res.success ? res.error.message : 'Failed to initialize payment gateway.');
+            // @ts-ignore (залежить від того, як ти типізував fetcher)
+            setError(!res.success ? res.error?.message || 'Error' : 'Failed to initialize payment gateway.');
             setIsLoading(false);
         }
     };
 
     const showCurrentSub = currentPlan !== 'FREE' && !isExtending;
 
-    // Форматування дати для красивого виводу
     const formattedExpiryDate = expiryDate
         ? new Date(expiryDate).toLocaleDateString('en-US', {
             year: 'numeric',
@@ -101,6 +99,22 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
             day: 'numeric'
         })
         : null;
+
+    useEffect(() => {
+        const status = searchParams.get('status');
+
+        if (status === 'success') {
+            toast.success('Payment successful!', {
+                description: 'Your PRO status has been activated. Enjoy!',
+            });
+            router.replace('/dashboard/billing');
+        } else if (status === 'cancel') {
+            toast.error('Payment cancelled', {
+                description: 'You can try again whenever you are ready.',
+            });
+            router.replace('/dashboard/billing');
+        }
+    }, [searchParams, router]);
 
     return (
         <div className="max-w-5xl mx-auto space-y-8 pb-10">
@@ -139,7 +153,6 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
             </header>
 
             <AnimatePresence mode="wait">
-                {/* VIEW: CURRENT SUBSCRIPTION INFO */}
                 {showCurrentSub ? (
                     <motion.div
                         key="current-sub"
@@ -148,6 +161,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                         exit={{ opacity: 0, y: -10 }}
                         className="max-w-2xl"
                     >
+                        {/* CURRENT SUB UI (Без змін) */}
                         <div className="bg-[#131316] border border-accent/20 p-8 rounded-[2.5rem] relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <span className="text-8xl font-black uppercase tracking-tighter">{currentPlan}</span>
@@ -186,7 +200,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                     </motion.div>
                 ) : (
                     <>
-                        {/* STEP 1: PLAN SELECTION */}
+                        {/* STEP 1: PLAN SELECTION (Без змін) */}
                         {step === 'plan' && (
                             <motion.div
                                 key="step-plan"
@@ -236,26 +250,32 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                                 exit={{ opacity: 0, x: -10 }}
                                 className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto"
                             >
+                                {/* КРИПТА (NOWPAYMENTS) */}
                                 <div
-                                    onClick={() => handleSelectProvider('crypto')}
+                                    onClick={() => handleSelectProvider('nowpayments')}
                                     className="bg-gradient-to-br from-[#1a1a24] to-[#0a0a0c] border border-indigo-500/10 p-6 rounded-[2rem] cursor-pointer hover:border-indigo-500/40 transition-all group relative overflow-hidden"
                                 >
                                     <span className="bg-indigo-500/20 text-indigo-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-full mb-3 inline-block">Secure & Private</span>
                                     <h3 className="text-xl font-black text-white mb-1">Cryptocurrency</h3>
-                                    <p className="text-text-muted text-xs mb-6">Pay with USDT (TRC-20), BTC, or ETH.</p>
+                                    <p className="text-text-muted text-xs mb-6">Pay with USDT, BTC, ETH, and more.</p>
                                     <div className="flex gap-2 opacity-40 group-hover:opacity-100 transition-all">
                                         <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center text-[12px] font-bold">₮</div>
                                         <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center text-[12px] font-bold">₿</div>
                                     </div>
                                 </div>
 
+                                {/* КАРТКИ (DODO PAYMENTS) */}
                                 <div
-                                    onClick={() => handleSelectProvider('paypal')}
-                                    className="bg-gradient-to-br from-[#131316] to-[#0a0a0c] border border-blue-500/10 p-6 rounded-[2rem] opacity-50 grayscale relative overflow-hidden cursor-not-allowed"
+                                    onClick={() => handleSelectProvider('dodopayments')}
+                                    className="bg-gradient-to-br from-[#131316] to-[#0a0a0c] border border-emerald-500/10 p-6 rounded-[2rem] cursor-pointer hover:border-emerald-500/40 transition-all group relative overflow-hidden"
                                 >
-                                    <span className="bg-blue-500/20 text-blue-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-full mb-3 inline-block">Coming Soon</span>
-                                    <h3 className="text-xl font-black text-white mb-1">PayPal & Cards</h3>
-                                    <p className="text-text-muted text-xs mb-6">Credit Cards and Balance.</p>
+                                    <span className="bg-emerald-500/20 text-emerald-300 text-[9px] font-black uppercase px-2 py-0.5 rounded-full mb-3 inline-block">Fast & Easy</span>
+                                    <h3 className="text-xl font-black text-white mb-1">Card / Apple Pay</h3>
+                                    <p className="text-text-muted text-xs mb-6">Pay via Dodo Payments securely.</p>
+                                    <div className="flex gap-2 opacity-40 group-hover:opacity-100 transition-all text-white font-bold text-[12px]">
+                                        <div className="px-3 h-8 bg-white/5 rounded-lg flex items-center justify-center">Visa</div>
+                                        <div className="px-3 h-8 bg-white/5 rounded-lg flex items-center justify-center">Apple Pay</div>
+                                    </div>
                                 </div>
                             </motion.div>
                         )}
@@ -279,8 +299,8 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                                         {isLoading ? (
                                             <>
                                                 <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-4"></div>
-                                                <h3 className="text-sm font-bold mb-1 italic text-white">Connecting to Gateway...</h3>
-                                                <p className="text-[10px] text-text-muted px-10 text-center">Preparing your crypto invoice. Do not close this tab.</p>
+                                                <h3 className="text-sm font-bold mb-1 italic text-white">Connecting to {selectedProvider === 'nowpayments' ? 'Crypto Gateway' : 'Dodo Payments'}...</h3>
+                                                <p className="text-[10px] text-text-muted px-10 text-center">Preparing your invoice. Do not close this tab.</p>
                                             </>
                                         ) : error ? (
                                             <>

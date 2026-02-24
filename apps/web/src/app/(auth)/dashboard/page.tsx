@@ -3,11 +3,13 @@ import { AuthService } from '@/services/auth.service';
 import Link from 'next/link';
 import { DevicesService } from '@/services/devices.service';
 import { ReleasesService } from '@/services/releases.service';
+import { ReviewService } from '@/services/reviews.service';
 
 export default async function OverviewPage() {
     const userRes = await AuthService.getProfile();
     const devicesRes = await DevicesService.getDevices();
     const releaseRes = await ReleasesService.getLatest();
+    const reviewRes = await ReviewService.getMyReview();
 
     if (!userRes.success || !userRes.data) {
         redirect('/login');
@@ -15,6 +17,9 @@ export default async function OverviewPage() {
 
     const devices = devicesRes.success ? devicesRes.data : [];
     const release = releaseRes.success ? releaseRes.data : undefined;
+
+    const myReview = reviewRes.success ? reviewRes.data : null;
+
 
     const user = userRes.data;
     const subscription = user.subscription;
@@ -68,7 +73,7 @@ export default async function OverviewPage() {
                             <div className="space-y-3 mb-6">
                                 <div className="flex justify-between items-center bg-white/5 px-3 py-2.5 rounded-xl border border-white/5">
                                     <span className="text-[10px] text-text-muted font-bold uppercase tracking-wider">Linked Devices</span>
-                                    <span className="text-sm font-black text-white">{devices.length} / 3</span>
+                                    <span className="text-sm font-black text-white">{devices.length} / {isPro ? 3 : 1}</span>
                                 </div>
                                 {release && (
                                     <div className="flex justify-between items-center bg-white/5 px-3 py-2.5 rounded-xl border border-white/5">
@@ -142,23 +147,26 @@ export default async function OverviewPage() {
             </div>
 
             {/* БЛОК ВІДГУКУ */}
-            <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-5 relative overflow-hidden mt-4">
-                <div className="absolute left-0 top-0 w-1/3 h-full bg-gradient-to-r from-white/[0.02] to-transparent pointer-events-none" />
-                <div className="flex items-center gap-4 relative z-10">
-                    <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shrink-0">
-                        <svg className="w-6 h-6 text-[#00FF66]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-                        </svg>
+            {!myReview && (
+                <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-5 relative overflow-hidden mt-4">
+                    <div className="absolute left-0 top-0 w-1/3 h-full bg-gradient-to-r from-white/[0.02] to-transparent pointer-events-none" />
+                    <div className="flex items-center gap-4 relative z-10">
+                        <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                            <svg className="w-6 h-6 text-[#00FF66]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 className="text-base font-bold text-white mb-0.5">Share your experience</h4>
+                            <p className="text-xs text-text-muted">Did QwikTwik boost your FPS? Leave a review and help the community grow.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h4 className="text-base font-bold text-white mb-0.5">Share your experience</h4>
-                        <p className="text-xs text-text-muted">Did QwikTwik boost your FPS? Leave a review and help the community grow.</p>
-                    </div>
+                    <Link href="/dashboard/reviews" className="shrink-0 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl transition-all whitespace-nowrap relative z-10 text-sm">
+                        Write a Review
+                    </Link>
                 </div>
-                <Link href="/dashboard/reviews" className="shrink-0 px-5 py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-bold rounded-xl transition-all whitespace-nowrap relative z-10 text-sm">
-                    Write a Review
-                </Link>
-            </div>
+            )}
+
 
         </div>
     );
