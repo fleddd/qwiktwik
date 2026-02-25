@@ -20,7 +20,6 @@ export default async function OverviewPage() {
 
     const myReview = reviewRes.success ? reviewRes.data : null;
 
-
     const user = userRes.data;
     const subscription = user.subscription;
 
@@ -146,6 +145,32 @@ export default async function OverviewPage() {
                 )}
             </div>
 
+            {/* БЛОК ПАРТНЕРСЬКОЇ ПРОГРАМИ (НОВИЙ) */}
+            {user.role === "USER" && (
+                <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-5 relative overflow-hidden mt-6">
+                    <div className="absolute right-0 top-0 w-1/3 h-full bg-gradient-to-l from-purple-500/[0.05] to-transparent pointer-events-none" />
+                    <div className="flex items-center gap-4 relative z-10">
+                        <div className="w-12 h-12 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center shrink-0">
+                            <svg className="w-6 h-6 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 className="text-base font-bold text-white mb-0.5">Become a Partner</h4>
+                            <p className="text-xs text-text-muted">Want to earn money by recommending QwikTwik? Apply for our affiliate program.</p>
+                        </div>
+                    </div>
+                    <Link
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSdkTyuyako2N0mKgnWjGzpz_gIuhe07nO72gddcjzW-yFoPuQ/viewform?usp=publish-editor"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 px-5 py-2.5 bg-white/5 hover:bg-purple-500/20 border border-white/10 hover:border-purple-500/30 hover:text-purple-400 text-white font-bold rounded-xl transition-all whitespace-nowrap relative z-10 text-sm"
+                    >
+                        Apply Now
+                    </Link>
+                </div>
+            )}
+
             {/* БЛОК ВІДГУКУ */}
             {!myReview && (
                 <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 flex flex-col md:flex-row items-center justify-between gap-5 relative overflow-hidden mt-4">
@@ -166,8 +191,6 @@ export default async function OverviewPage() {
                     </Link>
                 </div>
             )}
-
-
         </div>
     );
 }
