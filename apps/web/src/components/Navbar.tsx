@@ -52,6 +52,7 @@ export default function Navbar({ user }: NavbarProps) {
         { label: 'Reviews', href: PAGES.REVIEWS },
         { label: 'Pro', href: PAGES.PRICING_PRO, highlight: true },
         { label: 'How It Works', href: PAGES.DOCS },
+        { label: 'Affiliate', href: PAGES.AFFILIATE },
     ];
 
     const handleMobileClick = () => {

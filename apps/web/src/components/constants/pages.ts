@@ -10,5 +10,6 @@ export const PAGES = {
     PRICING_PRO: '/pricing',
     DOWNLOAD_FREE: '/signup',
     CHECKOUT_PRO: '/signup?plan=pro',
-    REVIEWS: '/reviews'
+    REVIEWS: '/reviews',
+    AFFILIATE: '/affiliate'
 };

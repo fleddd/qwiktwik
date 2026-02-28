@@ -38,6 +38,8 @@ export default function Metrics() {
 
     useEffect(() => {
         let interval: ReturnType<typeof setInterval>;
+        let metricsInterval: ReturnType<typeof setInterval>; // Додаємо змінну для інтервалу цифр
+        let timeout: ReturnType<typeof setTimeout>;
 
         if (boostState === 'unoptimized') {
             interval = setInterval(() => {
@@ -50,7 +52,6 @@ export default function Metrics() {
                         return { ...p, cpu: Math.max(0, p.cpu + (Math.random() * 4 - 2)), ram: Math.max(50, p.ram + (Math.random() * 20 - 10)) };
                     });
 
-                    // ЗМІНА 1: Максимум 5 процесів замість 7, щоб таблиця була нижчою
                     if (newProcs.length < 5 && Math.random() > 0.4) {
                         const randomName = junkPool[Math.floor(Math.random() * junkPool.length)];
                         if (!newProcs.find(p => p.name === randomName)) {
@@ -83,6 +84,7 @@ export default function Metrics() {
             }, 800);
 
         } else if (boostState === 'optimizing') {
+            // 1. Анімація статусів процесів
             interval = setInterval(() => {
                 setProcesses(prev => prev.map(p => {
                     if (p.id === 'cs2') return { ...p, status: 'Prioritized', color: 'text-accent', bg: 'bg-accent/10', cpu: p.cpu + (88 - p.cpu) * 0.3, ram: 4250 };
@@ -91,7 +93,18 @@ export default function Metrics() {
                 }));
             }, 100);
 
-            setTimeout(() => {
+            metricsInterval = setInterval(() => {
+                setFps(prev => {
+                    const next = prev + 1.2; // Додаємо потроху кожні 50мс
+                    return next >= 148 ? 148 : next; // Зупиняємось на 148
+                });
+                setPing(prev => {
+                    const next = prev - 1.2; // Віднімаємо потроху кожні 50мс
+                    return next <= 12 ? 12 : next; // Зупиняємось на 12
+                });
+            }, 100);
+
+            timeout = setTimeout(() => {
                 setProcesses(prev => {
                     const essential = prev
                         .filter(p => p.id === 'cs2' || p.id === 'qwik')
@@ -103,13 +116,13 @@ export default function Metrics() {
 
                     const suspended = prev
                         .filter(p => p.id !== 'cs2' && p.id !== 'qwik')
-                        .slice(0, 1) // ЗМІНА 2: Залишаємо тільки 1 "мертвий" процес для вигляду
+                        .slice(0, 1)
                         .map(p => ({ ...p, status: 'Terminated' as ProcessStatus, cpu: 0, ram: 15, color: 'text-white/20' }));
 
                     return [...essential, ...suspended];
                 });
                 setBoostState('optimized');
-            }, 1500);
+            }, 2000);
 
         } else if (boostState === 'optimized') {
             interval = setInterval(() => {
@@ -117,12 +130,17 @@ export default function Metrics() {
                     if (p.id === 'cs2') return { ...p, cpu: 92.4 + (Math.random() * 2 - 1), ram: 4250 + (Math.random() * 10 - 5) };
                     return p;
                 }));
-                setFps(145 + Math.floor(Math.random() * 6));
+                setFps(135 + Math.floor(Math.random() * 6));
                 setPing(12 + Math.floor(Math.random() * 2));
             }, 1000);
         }
 
-        return () => clearInterval(interval);
+        // Очищаємо всі інтервали та таймаути
+        return () => {
+            clearInterval(interval);
+            if (metricsInterval) clearInterval(metricsInterval);
+            if (timeout) clearTimeout(timeout);
+        };
     }, [boostState]);
 
     const triggerBoost = () => {
@@ -161,13 +179,19 @@ export default function Metrics() {
                         <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="text-text-muted text-xs font-medium mb-1">In-Game FPS</p>
-                                <div className={`text-3xl font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-white'}`}>{Math.round(fps)}</div>
+                                {/* ДОДАВ tabular-nums, щоб цифри не смикались під час бігу */}
+                                <div className={`text-3xl tabular-nums font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-white'}`}>
+                                    {Math.round(fps)}
+                                </div>
                             </div>
                         </div>
                         <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
                             <div>
                                 <p className="text-text-muted text-xs font-medium mb-1">System Latency</p>
-                                <div className={`text-3xl font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-red-400'}`}>{Math.round(ping)}<span className="text-lg">ms</span></div>
+                                {/* ДОДАВ tabular-nums */}
+                                <div className={`text-3xl tabular-nums font-extrabold transition-colors duration-500 ${boostState === 'optimized' ? 'text-accent' : 'text-red-400'}`}>
+                                    {Math.round(ping)}<span className="text-lg">ms</span>
+                                </div>
                             </div>
                         </div>
                         <div className="bg-charcoal border border-white/10 rounded-2xl p-4 flex justify-between items-center">
