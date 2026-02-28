@@ -5,8 +5,7 @@ import FadeIn from '@/components/FadeIn';
 import Link from 'next/link';
 
 export default function Affiliate() {
-    // Заміни на своє реальне посилання
-    const GOOGLE_FORM_URL = "https://forms.gle/your-google-form-link";
+    const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdkTyuyako2N0mKgnWjGzpz_gIuhe07nO72gddcjzW-yFoPuQ/viewform?usp=publish-editor";
 
     return (
         <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-[#050505] text-white">
@@ -16,8 +15,10 @@ export default function Affiliate() {
                 <FadeIn>
                     <div className="text-center mb-16 md:mb-24">
                         <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-                            Share QwikTwik. <br className="hidden md:block" />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">
+                            <span className='text-accent'>
+                                Share QwikTwik. <br className="hidden md:block" />
+                            </span>
+                            <span className="text-white">
                                 Earn Real Cash.
                             </span>
                         </h1>
