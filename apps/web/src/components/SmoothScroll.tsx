@@ -15,8 +15,6 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
 
                 // Синхронізує нативний скрол пальцем із віртуальним скролом Lenis
                 syncTouch: true,
-                // Робимо тач трохи більш чутливим, бо syncTouch може здаватись "тугим"
-                touchMultiplier: 2.0,
 
                 // Додатково: допомагає зберегти інерцію
                 infinite: false,
