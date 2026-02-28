@@ -166,7 +166,7 @@ export default function WriteReviewPage() {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -15 }}
-                        className="bg-[#131316] border border-white/5 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex-1 flex flex-col"
+                        className="bg-charcoal border border-white/5 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex-1 flex flex-col"
                     >
                         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00FF66] blur-[100px] opacity-[0.05] pointer-events-none" />
 
@@ -221,7 +221,7 @@ export default function WriteReviewPage() {
                             initial={{ opacity: 0, y: 15 }}
                             animate={{ opacity: 1, y: 0 }}
                             exit={{ opacity: 0, y: -15 }}
-                            className="bg-[#131316] border border-white/5 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex-1 flex flex-col"
+                            className="bg-charcoal border border-white/5 rounded-3xl p-6 md:p-10 shadow-2xl relative overflow-hidden flex-1 flex flex-col"
                         >
                             <form onSubmit={handleSubmit} className="relative z-10 flex flex-col gap-8 flex-1">
 

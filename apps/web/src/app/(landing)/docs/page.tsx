@@ -162,7 +162,7 @@ export default function KnowledgeBase() {
                                         </h2>
 
                                         {category.articles.map((article, idx) => (
-                                            <div key={idx} className="bg-[#131316] border border-white/5 rounded-2xl p-5 md:p-10 shadow-lg">
+                                            <div key={idx} className="bg-charcoal border border-white/5 rounded-2xl p-5 md:p-10 shadow-lg">
                                                 <div className="flex flex-wrap gap-2 mb-4">
                                                     {article.tags.map(tag => (
                                                         <span key={tag} className="px-2 py-0.5 bg-white/5 text-text-muted text-[9px] font-bold uppercase tracking-wider rounded">

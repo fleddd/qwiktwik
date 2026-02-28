@@ -57,18 +57,8 @@ export default async function Testimonials() {
     const marqueeReviews = [...displayReviews, ...displayReviews];
 
     return (
-        <section className="py-20 md:py-32 relative overflow-hidden bg-[#050505]">
+        <section className="py-20 md:py-32 relative overflow-hidden">
 
-            {/* --- АНІМОВАНИЙ ФОН (ЛІТАЮЧІ ЕЛЕМЕНТИ) --- */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] bg-accent/5 blur-[120px] rounded-full animate-[pulse_8s_ease-in-out_infinite]"></div>
-                <div className="absolute top-[60%] -right-[10%] w-[30%] h-[30%] bg-purple-500/5 blur-[100px] rounded-full animate-[pulse_10s_ease-in-out_infinite_reverse]"></div>
-
-                {/* Декоративні частинки (чистий CSS через Tailwind arbitrary values) */}
-                <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-accent/40 rounded-full animate-[bounce_4s_infinite]"></div>
-                <div className="absolute bottom-1/3 right-1/3 w-3 h-3 bg-purple-500/30 rounded-full animate-[ping_6s_infinite]"></div>
-                <div className="absolute top-1/2 right-1/4 w-1 h-1 bg-white/20 rounded-full animate-[bounce_3s_infinite_1s]"></div>
-            </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10 mb-12 md:mb-20">
                 <FadeIn>
@@ -85,7 +75,6 @@ export default async function Testimonials() {
 
             {/* --- БЕЗКІНЕЧНА КАРУСЕЛЬ (INFINITE MARQUEE) --- */}
             <div className="relative w-full overflow-hidden flex pb-4 z-10 group">
-                {/* Градієнти по краях для плавного зникнення карток */}
                 <div className="absolute top-0 bottom-0 left-0 w-24 md:w-48 bg-gradient-to-r from-[#050505] to-transparent z-20 pointer-events-none"></div>
                 <div className="absolute top-0 bottom-0 right-0 w-24 md:w-48 bg-gradient-to-l from-[#050505] to-transparent z-20 pointer-events-none"></div>
 
@@ -96,7 +85,7 @@ export default async function Testimonials() {
                             key={`${review.id}-${i}`}
                             className="w-[300px] md:w-[400px] shrink-0 mx-3 md:mx-4"
                         >
-                            <div className="bg-[#131316] border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col h-full hover:border-accent/30 transition-all duration-500 shadow-xl group/card relative overflow-hidden">
+                            <div className="bg-charcoal border border-white/5 rounded-3xl p-6 md:p-8 flex flex-col h-full hover:border-accent/30 transition-all duration-500 shadow-xl group/card relative overflow-hidden">
 
                                 {/* Декоративний відблиск при наведенні */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none"></div>

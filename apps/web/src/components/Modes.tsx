@@ -92,7 +92,7 @@ export default function Modes() {
                 </FadeIn>
 
                 <FadeIn delay={0.1}>
-                    <div className="bg-[#131316] border border-white/5 rounded-3xl p-5 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden shadow-2xl">
+                    <div className="bg-charcoal border border-white/5 rounded-3xl p-5 md:p-10 flex flex-col md:flex-row gap-8 md:gap-12 relative overflow-hidden shadow-2xl">
 
                         {/* Фонове світіння */}
                         <div className={`absolute top-1/2 -right-20 w-96 h-96 blur-[120px] rounded-full opacity-[0.07] pointer-events-none transition-colors duration-700 ${activeMode.theme.glow} -translate-y-1/2`}></div>

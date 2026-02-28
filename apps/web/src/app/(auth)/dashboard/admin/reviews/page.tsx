@@ -85,12 +85,12 @@ export default function AdminReviewsPage() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         placeholder="Search by email or text..."
-                        className="w-full bg-[#131316] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00FF66]/50 transition-colors"
+                        className="w-full bg-charcoal border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-[#00FF66]/50 transition-colors"
                     />
                 </div>
             </header>
 
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden min-h-[400px]">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden min-h-[400px]">
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <div className="w-8 h-8 border-2 border-[#00FF66] border-t-transparent rounded-full animate-spin"></div>
@@ -168,7 +168,7 @@ export default function AdminReviewsPage() {
 
             {/* MODAL 1: ПЕРЕГЛЯД ВІДГУКУ */}
             <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
-                <DialogContent className="bg-[#131316] border border-white/10 text-white sm:max-w-lg">
+                <DialogContent className="bg-charcoal border border-white/10 text-white sm:max-w-lg">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase tracking-tight">Review Details</DialogTitle>
                     </DialogHeader>
@@ -199,7 +199,7 @@ export default function AdminReviewsPage() {
 
             {/* MODAL 2: ПІДТВЕРДЖЕННЯ ВИДАЛЕННЯ */}
             <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-                <DialogContent className="bg-[#131316] border border-red-500/20 text-white sm:max-w-md">
+                <DialogContent className="bg-charcoal border border-red-500/20 text-white sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase tracking-tight text-red-400">Delete Review?</DialogTitle>
                         <p className="text-sm text-text-muted mt-2">

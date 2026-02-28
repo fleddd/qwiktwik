@@ -81,7 +81,7 @@ export default function ReviewsPage() {
                         Showing <strong className="text-white">{filteredReviews.length}</strong> reviews
                     </div>
 
-                    <div className="flex bg-[#131316] p-1.5 rounded-xl border border-white/5">
+                    <div className="flex bg-charcoal p-1.5 rounded-xl border border-white/5">
                         <button onClick={() => handleFilterChange('all')} className={`px-5 py-2 rounded-lg font-bold text-sm transition-all ${filter === 'all' ? 'bg-white/10 text-white' : 'text-[#94a3b8] hover:text-white hover:bg-white/5'}`}>All</button>
                         <button onClick={() => handleFilterChange('PRO')} className={`px-5 py-2 rounded-lg font-bold text-sm transition-all ${filter === 'PRO' ? 'bg-[#00FF66]/10 text-[#00FF66]' : 'text-[#94a3b8] hover:text-white hover:bg-white/5'}`}>Pro</button>
                         <button onClick={() => handleFilterChange('FREE')} className={`px-5 py-2 rounded-lg font-bold text-sm transition-all ${filter === 'FREE' ? 'bg-white/10 text-white' : 'text-[#94a3b8] hover:text-white hover:bg-white/5'}`}>Free</button>
@@ -97,7 +97,7 @@ export default function ReviewsPage() {
                                 {visibleReviews.map((review) => (
                                     <motion.div
                                         key={review.id} layout initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} transition={{ duration: 0.3 }}
-                                        className="break-inside-avoid bg-[#131316] border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-colors"
+                                        className="break-inside-avoid bg-charcoal border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-colors"
                                     >
                                         <div className="mb-4"><Stars count={review.rating} /></div>
                                         <p className="text-[#e2e8f0] leading-relaxed text-sm mb-6">"{review.text}"</p>
@@ -130,7 +130,7 @@ export default function ReviewsPage() {
 
                         {filteredReviews.length > visibleCount && (
                             <div className="mt-12 flex justify-center">
-                                <button onClick={() => setVisibleCount(prev => prev + 6)} className="px-8 py-4 bg-[#131316] hover:bg-white/5 border border-white/10 text-white font-bold rounded-xl transition-all shadow-lg active:scale-95">
+                                <button onClick={() => setVisibleCount(prev => prev + 6)} className="px-8 py-4 bg-charcoal hover:bg-white/5 border border-white/10 text-white font-bold rounded-xl transition-all shadow-lg active:scale-95">
                                     Load More
                                 </button>
                             </div>

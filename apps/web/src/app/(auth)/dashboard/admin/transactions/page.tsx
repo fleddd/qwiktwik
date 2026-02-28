@@ -11,7 +11,7 @@ export default function AdminTransactionsPage() {
                 <p className="text-text-muted text-sm">All system payments and their statuses.</p>
             </header>
 
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left text-sm whitespace-nowrap">
                         <thead className="bg-white/5 border-b border-white/5 text-xs uppercase tracking-widest text-text-muted">

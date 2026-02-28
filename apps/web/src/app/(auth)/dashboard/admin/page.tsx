@@ -47,7 +47,7 @@ export default async function AdminOverviewPage() {
             {/* Метрики */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {metrics.map((stat, i) => (
-                    <div key={i} className="bg-[#131316] border border-white/5 p-6 rounded-3xl relative overflow-hidden group hover:border-[#00FF66]/20 transition-colors">
+                    <div key={i} className="bg-charcoal border border-white/5 p-6 rounded-3xl relative overflow-hidden group hover:border-[#00FF66]/20 transition-colors">
                         <div className="absolute -right-4 -top-4 w-24 h-24 bg-[#00FF66] opacity-[0.02] group-hover:opacity-[0.05] rounded-full blur-2xl transition-all"></div>
                         <div className="flex items-center gap-4 mb-4">
                             <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-[#00FF66]/10 transition-colors">
@@ -63,7 +63,7 @@ export default async function AdminOverviewPage() {
             </div>
 
             {/* Останні реєстрації */}
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden">
                 <div className="p-6 md:p-8 border-b border-white/5 flex justify-between items-center">
                     <h3 className="text-lg font-bold uppercase tracking-widest text-text-muted text-xs">Recent Signups</h3>
                 </div>

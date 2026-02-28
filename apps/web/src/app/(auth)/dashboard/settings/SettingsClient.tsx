@@ -126,7 +126,7 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
         <>
             <div className="grid grid-cols-1 xl:grid-cols-3 gap-8 max-w-6xl">
                 <div className="xl:col-span-2 space-y-8">
-                    <div className="bg-[#131316] border border-white/5 p-8 rounded-3xl">
+                    <div className="bg-charcoal border border-white/5 p-8 rounded-3xl">
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-3">
                             <svg className="w-5 h-5 text-accent" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" /></svg>
                             Public Profile
@@ -209,7 +209,7 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
                     </div>
 
                     {/* Security Section */}
-                    <div className="bg-[#131316] border border-white/5 p-8 rounded-3xl">
+                    <div className="bg-charcoal border border-white/5 p-8 rounded-3xl">
                         <h3 className="text-xl font-bold mb-6 flex items-center gap-3">Security & Password</h3>
                         <form onSubmit={handleUpdatePassword} className="space-y-6">
                             <div className="space-y-2">
@@ -256,7 +256,7 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
 
                 {/* Connections Sidebar */}
                 <div className="space-y-8">
-                    <div className="bg-[#131316] border border-white/5 p-8 rounded-3xl">
+                    <div className="bg-charcoal border border-white/5 p-8 rounded-3xl">
                         <h3 className="text-xl font-bold mb-2">Connected Accounts</h3>
                         <p className="text-text-muted text-sm mb-6">Link social accounts for quick login.</p>
                         <div className="space-y-4">
@@ -284,7 +284,7 @@ export default function SettingsClient({ user }: { user: UserProfileResponse }) 
 
             {/* Shadcn Dialog */}
             <AlertDialog open={!!providerToDisconnect} onOpenChange={() => setProviderToDisconnect(null)}>
-                <AlertDialogContent className="bg-[#131316] border-white/10 text-white rounded-3xl">
+                <AlertDialogContent className="bg-charcoal border-white/10 text-white rounded-3xl">
                     <AlertDialogHeader>
                         <AlertDialogTitle>Ви впевнені?</AlertDialogTitle>
                         <AlertDialogDescription className="text-text-muted">

@@ -116,7 +116,7 @@ export default function AdminReleasesPage() {
                 </button>
             </header>
 
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden min-h-[300px]">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden min-h-[300px]">
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <div className="w-8 h-8 border-2 border-[#00FF66] border-t-transparent rounded-full animate-spin"></div>
@@ -174,7 +174,7 @@ export default function AdminReleasesPage() {
 
             {/* МОДАЛКА СТВОРЕННЯ / РЕДАГУВАННЯ */}
             <Dialog open={isFormModalOpen} onOpenChange={setIsFormModalOpen}>
-                <DialogContent className="bg-[#131316] border border-white/10 text-white sm:max-w-md">
+                <DialogContent className="bg-charcoal border border-white/10 text-white sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase tracking-tight">
                             {editingId ? 'Edit Release' : 'New Release'}
@@ -240,7 +240,7 @@ export default function AdminReleasesPage() {
 
             {/* МОДАЛКА ВИДАЛЕННЯ */}
             <Dialog open={isDeleteModalOpen} onOpenChange={setIsDeleteModalOpen}>
-                <DialogContent className="bg-[#131316] border border-red-500/20 text-white sm:max-w-md">
+                <DialogContent className="bg-charcoal border border-red-500/20 text-white sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase text-red-400">Delete Release?</DialogTitle>
                         <p className="text-sm text-text-muted mt-2">

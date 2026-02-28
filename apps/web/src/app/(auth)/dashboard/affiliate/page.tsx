@@ -117,7 +117,7 @@ export default function AffiliateDashboard() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
                 {/* BALANCE CARD */}
-                <div className="bg-[#131316] border border-white/5 p-5 md:p-6 rounded-3xl flex flex-col justify-between">
+                <div className="bg-charcoal border border-white/5 p-5 md:p-6 rounded-3xl flex flex-col justify-between">
                     <div>
                         <h2 className="text-text-muted text-xs md:text-sm font-bold uppercase tracking-widest mb-2 flex items-center gap-2">
                             <DollarSign className="w-4 h-4 text-accent" /> Available Balance
@@ -147,7 +147,7 @@ export default function AffiliateDashboard() {
                 </div>
 
                 {/* SETTINGS CARD */}
-                <div className="bg-[#131316] border border-white/5 p-5 md:p-6 rounded-3xl space-y-6">
+                <div className="bg-charcoal border border-white/5 p-5 md:p-6 rounded-3xl space-y-6">
                     <div>
                         <label className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2 block">Your Promo Code</label>
                         <div className="flex gap-2 mb-3">
@@ -197,7 +197,7 @@ export default function AffiliateDashboard() {
 
             {/* WITHDRAWAL REQUESTS */}
             {stats?.recentWithdrawals && stats.recentWithdrawals.length > 0 && (
-                <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden">
+                <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden">
                     <div className="p-5 md:p-6 border-b border-white/5">
                         <h2 className="text-lg font-bold">Payout History</h2>
                     </div>
@@ -225,8 +225,8 @@ export default function AffiliateDashboard() {
                                         </td>
                                         <td className="px-5 md:px-6 py-4 text-right">
                                             <span className={`px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-wider ${req.status === 'PENDING' ? 'bg-yellow-500/10 text-yellow-500' :
-                                                    req.status === 'COMPLETED' ? 'bg-accent/10 text-accent' :
-                                                        'bg-red-500/10 text-red-500'
+                                                req.status === 'COMPLETED' ? 'bg-accent/10 text-accent' :
+                                                    'bg-red-500/10 text-red-500'
                                                 }`}>
                                                 {req.status}
                                             </span>
@@ -240,7 +240,7 @@ export default function AffiliateDashboard() {
             )}
 
             {/* RECENT REFERRALS */}
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden">
                 <div className="p-5 md:p-6 border-b border-white/5 flex justify-between items-center">
                     <h2 className="text-lg font-bold">Your Referrals ({stats?.totalReferrals})</h2>
                 </div>
@@ -287,7 +287,7 @@ export default function AffiliateDashboard() {
 
             {/* SHADCN WITHDRAWAL MODAL */}
             <Dialog open={isWithdrawModalOpen} onOpenChange={setIsWithdrawModalOpen}>
-                <DialogContent className="bg-[#131316] border border-white/10 text-white sm:max-w-md">
+                <DialogContent className="bg-charcoal border border-white/10 text-white sm:max-w-md">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase tracking-tight">Confirm Payout</DialogTitle>
                     </DialogHeader>

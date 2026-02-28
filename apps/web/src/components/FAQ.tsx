@@ -41,7 +41,7 @@ export default function FAQ() {
                 <div className="space-y-3 md:space-y-4">
                     {faqs.map((faq, i) => (
                         <FadeIn key={i} delay={i * 0.1}>
-                            <details className="group bg-[#131316] border border-white/5 rounded-xl overflow-hidden open:border-accent/30 transition-colors duration-300" {...(i === 0 ? { open: true } : {})}>
+                            <details className="group bg-charcoal border border-white/5 rounded-xl overflow-hidden  transition-colors duration-300" {...(i === 0 ? { open: true } : {})}>
                                 <summary className="p-5 md:p-6 text-base md:text-lg font-bold cursor-pointer list-none flex justify-between items-center outline-none text-white group-hover:text-accent transition-colors select-none">
                                     <span className="pr-4">{faq.q}</span>
                                     <div className="relative w-6 h-6 flex-shrink-0 flex items-center justify-center rounded-full bg-white/5 group-hover:bg-accent/10 transition-colors">

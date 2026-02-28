@@ -85,7 +85,7 @@ export default function AdminAffiliatesPage() {
                 <p className="text-text-muted text-xs md:text-sm">View partners, check balances, and process payouts.</p>
             </header>
 
-            <div className="bg-[#131316] border border-white/5 rounded-3xl overflow-hidden min-h-[400px]">
+            <div className="bg-charcoal border border-white/5 rounded-3xl overflow-hidden min-h-[400px]">
                 {isLoading ? (
                     <div className="flex justify-center items-center h-64">
                         <div className="w-8 h-8 border-2 border-[#00FF66] border-t-transparent rounded-full animate-spin"></div>
@@ -139,8 +139,8 @@ export default function AdminAffiliatesPage() {
                                                     <button
                                                         onClick={() => handleViewDetails(user.id)}
                                                         className={`cursor-pointer px-4 py-2 text-xs font-bold rounded-lg transition-colors ${hasPending
-                                                                ? 'bg-yellow-500 text-black hover:bg-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
-                                                                : 'bg-white/5 hover:bg-white/10 text-white'
+                                                            ? 'bg-yellow-500 text-black hover:bg-yellow-400 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
+                                                            : 'bg-white/5 hover:bg-white/10 text-white'
                                                             }`}
                                                     >
                                                         {hasPending ? 'Review Payout' : 'Manage'}
@@ -158,7 +158,7 @@ export default function AdminAffiliatesPage() {
 
             {/* МОДАЛКА З ДЕТАЛЯМИ ТА ВИПЛАТАМИ */}
             <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-                <DialogContent className="bg-[#131316] border border-white/10 text-white sm:max-w-3xl max-h-[90vh] overflow-y-auto">
+                <DialogContent className="bg-charcoal border border-white/10 text-white sm:max-w-3xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
                         <DialogTitle className="text-xl font-black uppercase tracking-tight">Partner Details</DialogTitle>
                     </DialogHeader>

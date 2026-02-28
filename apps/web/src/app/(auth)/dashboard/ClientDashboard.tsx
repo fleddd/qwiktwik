@@ -117,15 +117,15 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
 
                             {/* STATS CARDS */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
+                                <div className="bg-charcoal border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Active Tweak Count</p>
                                     <h3 className="text-4xl font-black text-white">{isPro ? '72' : '15'}<span className="text-accent">/{isPro ? '75' : '15'}</span></h3>
                                 </div>
-                                <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
+                                <div className="bg-charcoal border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Latency Gain</p>
                                     <h3 className="text-4xl font-black text-accent">{isPro ? '-14%' : '-4%'}</h3>
                                 </div>
-                                <div className="bg-[#131316] border border-white/5 p-6 rounded-2xl">
+                                <div className="bg-charcoal border border-white/5 p-6 rounded-2xl">
                                     <p className="text-text-muted text-[10px] font-black uppercase mb-2 tracking-widest">Hardware Sync</p>
                                     <h3 className="text-4xl font-black text-white">Optimal</h3>
                                 </div>
@@ -166,7 +166,7 @@ export default function ClientDashboard({ user }: ClientDashboardProps) {
 
                     {activeTab === 'downloads' && (
                         <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6">
-                            <div className="bg-[#131316] border border-white/5 rounded-3xl p-10 flex flex-col md:flex-row items-center gap-10">
+                            <div className="bg-charcoal border border-white/5 rounded-3xl p-10 flex flex-col md:flex-row items-center gap-10">
                                 <div className="w-24 h-24 bg-accent/20 rounded-3xl flex items-center justify-center shrink-0 border border-accent/30 shadow-glow">
                                     <svg viewBox="0 0 24 24" className="w-12 h-12 stroke-accent stroke-2 fill-none"><path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                                 </div>

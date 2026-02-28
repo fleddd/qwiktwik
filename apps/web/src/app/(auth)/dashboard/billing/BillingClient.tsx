@@ -162,7 +162,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                         className="max-w-2xl"
                     >
                         {/* CURRENT SUB UI */}
-                        <div className="bg-[#131316] border border-accent/20 p-8 rounded-[2.5rem] relative overflow-hidden group">
+                        <div className="bg-charcoal border border-accent/20 p-8 rounded-[2.5rem] relative overflow-hidden group">
                             <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                                 <span className="text-8xl font-black uppercase tracking-tighter">{currentPlan}</span>
                             </div>
@@ -221,7 +221,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                                     <div
                                         key={plan.id}
                                         onClick={() => handleSelectPlan(plan)}
-                                        className={`relative flex flex-col p-6 rounded-[2rem] bg-[#131316] border transition-all cursor-pointer hover:scale-[1.01] group ${plan.highlight ? 'border-accent shadow-glow' : 'border-white/5 hover:border-white/20'}`}
+                                        className={`relative flex flex-col p-6 rounded-[2rem] bg-charcoal border transition-all cursor-pointer hover:scale-[1.01] group ${plan.highlight ? 'border-accent shadow-glow' : 'border-white/5 hover:border-white/20'}`}
                                     >
                                         {plan.save && (
                                             <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-accent text-black font-black text-[9px] px-3 py-0.5 rounded-full uppercase">
@@ -296,7 +296,7 @@ export default function BillingClient({ currentPlan, expiryDate }: BillingClient
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="max-w-md mx-auto"
                             >
-                                <div className="bg-[#131316] border border-white/5 p-8 rounded-[2.5rem] text-center">
+                                <div className="bg-charcoal border border-white/5 p-8 rounded-[2.5rem] text-center">
                                     <div className="mb-6 pb-6 border-b border-white/5">
                                         <p className="text-text-muted text-[9px] font-black uppercase tracking-widest mb-2">Order Summary</p>
                                         <h2 className="text-2xl font-black text-white">{selectedPlan?.name} {currentPlan !== 'FREE' ? 'Extension' : 'License'}</h2>

@@ -16,7 +16,7 @@ export default function DownloadsClient({ releases }: { releases: any[] }) {
             <div className="flex flex-col lg:flex-row gap-6">
 
                 {/* ЛІВА ЧАСТИНА - ДЕТАЛІ ВИБРАНОГО РЕЛІЗУ */}
-                <div className="flex-1 bg-[#131316] border border-white/5 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center md:items-start gap-10 relative overflow-hidden">
+                <div className="flex-1 bg-charcoal border border-white/5 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center md:items-start gap-10 relative overflow-hidden">
                     {/* Background glow */}
                     <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-64 h-64 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -64,7 +64,7 @@ export default function DownloadsClient({ releases }: { releases: any[] }) {
                 </div>
 
                 {/* ПРАВА ЧАСТИНА - ІСТОРІЯ ВЕРСІЙ */}
-                <div className="w-full lg:w-72 xl:w-80 bg-[#131316] border border-white/5 rounded-3xl p-6 flex flex-col h-full max-h-[500px]">
+                <div className="w-full lg:w-72 xl:w-80 bg-charcoal border border-white/5 rounded-3xl p-6 flex flex-col h-full max-h-[500px]">
                     <h3 className="font-bold uppercase tracking-widest text-text-muted mb-4 text-xs">Version History</h3>
                     <div className="flex flex-col gap-2 overflow-y-auto pr-2">
                         {releases.map((release) => {

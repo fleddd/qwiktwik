@@ -7,7 +7,7 @@ export default function CTA() {
         <section className="pb-16 md:pb-24 pt-10 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
                 <FadeIn>
-                    <div className="group bg-[#131316] border border-accent/30 rounded-3xl p-8 md:p-16 lg:p-20 text-center relative overflow-hidden shadow-[0_0_50px_rgba(0,255,102,0.1)]">
+                    <div className="group bg-charcoal border border-accent/30 rounded-3xl p-8 md:p-16 lg:p-20 text-center relative overflow-hidden shadow-[0_0_50px_rgba(0,255,102,0.1)]">
 
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-[600px] bg-accent blur-[150px] opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>
                         <div className="absolute bottom-0 right-0 w-64 h-64 bg-accent blur-[100px] opacity-10 group-hover:opacity-20 transition-opacity duration-700 pointer-events-none"></div>

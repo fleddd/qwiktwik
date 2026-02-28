@@ -25,7 +25,7 @@ export default async function TransactionsPage() {
                 </Link>
             </header>
 
-            <div className="bg-[#131316] border border-white/5 rounded-[2rem] overflow-hidden">
+            <div className="bg-charcoal border border-white/5 rounded-[2rem] overflow-hidden">
                 {transactions && transactions.length > 0 ? (
                     <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">

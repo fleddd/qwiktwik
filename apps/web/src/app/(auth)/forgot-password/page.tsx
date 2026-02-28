@@ -51,7 +51,7 @@ export default function ForgotPassword() {
                 </FadeIn>
 
                 <FadeIn delay={0.1}>
-                    <div className="bg-[#131316] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <div className="bg-charcoal border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-50"></div>
 
                         {error && !sent && (

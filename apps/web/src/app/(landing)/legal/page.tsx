@@ -8,7 +8,7 @@ export default function Legal() {
     const [activeTab, setActiveTab] = useState<'tos' | 'privacy'>('tos');
 
     return (
-        <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-[#050505] text-white">
+        <div className="min-h-screen pt-28 md:pt-36 pb-24  text-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6">
                 <FadeIn>
                     <div className="text-center mb-12">
@@ -22,13 +22,13 @@ export default function Legal() {
                         <div className="inline-flex bg-white/5 p-1 rounded-xl border border-white/5">
                             <button
                                 onClick={() => setActiveTab('tos')}
-                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'tos' ? 'bg-[#131316] text-white shadow-md' : 'text-text-muted hover:text-white'}`}
+                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'tos' ? 'bg-charcoal text-white shadow-md' : 'text-text-muted hover:text-white'}`}
                             >
                                 Terms of Service
                             </button>
                             <button
                                 onClick={() => setActiveTab('privacy')}
-                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'privacy' ? 'bg-[#131316] text-white shadow-md' : 'text-text-muted hover:text-white'}`}
+                                className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${activeTab === 'privacy' ? 'bg-charcoal text-white shadow-md' : 'text-text-muted hover:text-white'}`}
                             >
                                 Privacy Policy
                             </button>
@@ -36,7 +36,7 @@ export default function Legal() {
                     </div>
                 </FadeIn>
 
-                <div className="bg-[#131316] border border-white/5 rounded-3xl p-6 md:p-12 shadow-2xl">
+                <div className="bg-charcoal border border-white/5 rounded-3xl p-6 md:p-12 shadow-2xl">
                     <AnimatePresence mode="wait">
                         {activeTab === 'tos' && (
                             <motion.div key="tos" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="prose prose-invert prose-sm md:prose-base max-w-none text-text-muted">

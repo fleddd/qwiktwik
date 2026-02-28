@@ -135,7 +135,7 @@ export default function ResetPassword() {
                 </FadeIn>
 
                 <FadeIn delay={0.1}>
-                    <div className="bg-[#131316] border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
+                    <div className="bg-charcoal border border-white/10 rounded-3xl p-6 md:p-8 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-accent to-transparent opacity-50"></div>
 
                         <Suspense fallback={<div className="text-center text-text-muted text-sm font-mono py-4 animate-pulse">Scanning access token...</div>}>

@@ -39,7 +39,7 @@ export default function Changelog() {
     };
 
     return (
-        <div className="min-h-screen pt-28 md:pt-36 pb-24 bg-[#050505] text-white">
+        <div className="min-h-screen pt-28 md:pt-36 pb-24  text-white">
             <div className="max-w-4xl mx-auto px-4 sm:px-6">
                 <FadeIn>
                     <div className="mb-12 md:mb-20 text-center">
@@ -92,7 +92,7 @@ export default function Changelog() {
                                             </div>
                                         </div>
 
-                                        <div className="bg-[#131316] border border-white/5 rounded-2xl p-6 md:p-8">
+                                        <div className="bg-charcoal border border-white/5 rounded-2xl p-6 md:p-8">
                                             <ul className="space-y-3">
                                                 {changes.map((change, i) => (
                                                     <li key={i} className="flex items-start text-sm md:text-base text-text-muted">

@@ -29,7 +29,7 @@ export default function Pricing() {
 
                     {/* КАРТКА FREE */}
                     <FadeIn delay={0.1} className="h-full flex">
-                        <div className="group bg-[#131316] border border-white/5 rounded-3xl p-5 md:p-8 flex flex-col h-full w-full hover:border-white/20 transition-all duration-500 hover:shadow-2xl md:hover:-translate-y-1 relative overflow-hidden">
+                        <div className="group bg-charcoal border border-white/5 rounded-3xl p-5 md:p-8 flex flex-col h-full w-full hover:border-white/20 transition-all duration-500 hover:shadow-2xl md:hover:-translate-y-1 relative overflow-hidden">
                             {/* Легкий блік при наведенні */}
                             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/[0.02] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
