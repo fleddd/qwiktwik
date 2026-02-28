@@ -33,12 +33,12 @@ export class AffiliateService {
 
         if (!user) throw new NotFoundException('User not found');
 
-        // Рахуємо прибуток для кожного реферала (30% від суми їхніх оплат)
+        // Рахуємо прибуток для кожного реферала (15 від суми їхніх оплат)
         const referralsWithRevenue = user.referrals.map(ref => {
             const totalSpent = ref.transactions.reduce((sum, tx) => sum + tx.amount, 0);
             return {
                 ...ref,
-                revenueGenerated: totalSpent * 0.30 // 30% комісії
+                revenueGenerated: totalSpent * 0.15
             };
         });
 

@@ -21,7 +21,7 @@ export class BillingService {
         });
 
         if (user?.referredById) {
-            const commission = paymentAmount * 0.10;
+            const commission = paymentAmount * 0.15;
 
             await tx.user.update({
                 where: { id: user.referredById },
