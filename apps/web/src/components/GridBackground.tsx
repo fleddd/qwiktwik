@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 
 // --- НАЛАШТУВАННЯ АНІМАЦІЇ ---
-const FRAME_COUNT = 55; // Твої 55 кадрів
+const FRAME_COUNT = 102; // Твої 55 кадрів
 const CANVAS_WIDTH = 1920;
 const CANVAS_HEIGHT = 1080;
 

@@ -36,7 +36,7 @@ export default function Hero() {
                 </FadeIn>
 
                 {/* Візуал (Mockup) */}
-                <FadeIn delay={0.4}>
+                {/* <FadeIn delay={0.4}>
                     <div className="relative max-w-4xl mx-auto h-[450px] bg-gradient-to-br from-white/5 to-white/0 border border-white/5 rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex items-center justify-center overflow-hidden">
                         <div className="absolute inset-0 bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,rgba(0,255,102,0.02)_10px,rgba(0,255,102,0.02)_20px)]"></div>
 
@@ -53,7 +53,7 @@ export default function Hero() {
                             </div>
                         </div>
                     </div>
-                </FadeIn>
+                </FadeIn> */}
             </div>
         </section>
     );
